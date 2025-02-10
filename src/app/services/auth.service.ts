@@ -8,7 +8,8 @@ import { Observable, tap } from 'rxjs';
 })
 export class AuthService {
   //we are testing the api with mocky till the backend is ready
-  private apiUrl = 'https://run.mocky.io/v3/2e38089c-303a-4695-ba0c-94816e43cd2d';
+  private apiUrl = 'http://127.0.0.1:8000/api/auth/login';
+  private passwordResetConfirmUrl = 'http://127.0.0.1:8000/api/password/reset';
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -16,8 +17,8 @@ export class AuthService {
     return this.http.post<any>(this.apiUrl, { name, password }).pipe(
       tap(response => {
         console.log("Login response:", response); // Debugging
-        if (response.token && response.role) {
-          this.saveToken(response.token);
+        if (response.access_token && response.role) {  // Laravel sends `access_token`
+          this.saveToken(response.access_token);
           localStorage.setItem('userRole', response.role);
         } else {
           console.error("Invalid login response format:", response);
@@ -25,7 +26,13 @@ export class AuthService {
       })
     );
   }
-  
+  forgotPassword(email: string): Observable<any> {
+    return this.http.post<any>('http://127.0.0.1:8000/api/password/email', { email });
+  }
+
+  resetPassword(token: string | null, newPassword: string): Observable<any> {
+    return this.http.post<any>(this.passwordResetConfirmUrl, { token, new_password: newPassword, confirm_password: newPassword });
+  }
   
   getUserRole(): string {
     return localStorage.getItem('userRole') || 'guest';

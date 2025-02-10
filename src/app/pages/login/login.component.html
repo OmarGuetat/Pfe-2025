@@ -1,4 +1,11 @@
 <section class="vh-100 ">
+  <!-- Notification Alert -->
+<div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show custom-alert position-absolute rights-0 end-0 m-3 shadow rounded" role="alert">
+  <i class="bi-exclamation-octagon-fill"></i>
+    <strong class="mx-2">{{ errorMessage }}</strong>
+  <button type="button" class="btn-close" (click)="dismissAlert()" aria-label="Close"></button>
+</div>
+
   <div class="container h-100 ">
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col col-xl-10">
@@ -46,3 +53,4 @@
     </div>
   </div>
 </section>
+

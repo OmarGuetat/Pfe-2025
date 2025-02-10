@@ -25,75 +25,7 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--color-primary); 
 }
 
-a {
-    color: var(--color-primary); 
-    text-decoration: none;
-}
 
-a:hover {
-    color: var(--color-primaryLight);
-}
 
-button {
-    background-color: var(--color-primary);
-    color: #ffffff;
-    border: none;
-    padding: 12px 20px;
-    border-radius: 4px;
-    font-family: var(--font-family-secondary);
-    font-weight: 500;
-    cursor: pointer;
-}
 
-button:hover {
-    background-color: var(--color-primaryDarkest); 
-}
-
-.card {
-    background-color: var(--color-card);
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.input-group {
-    margin-bottom: 1.5rem;
-}
-
-input,
-textarea,
-select {
-    border-radius: 4px;
-    border: 1px solid var(--color-border);
-    padding: 10px;
-    font-size: 16px;
-    width: 100%;
-}
-
-input:focus,
-textarea:focus,
-select:focus {
-    border-color: var(--color-primary);
-    outline: none;
-}
-
-.form-label {
-    font-weight: 500;
-    color: var(--color-textPrimary);
-}
-
-footer {
-    background-color: var(--color-background);
-    color: var(--color-textSecondary);
-    padding: 15px;
-    text-align: center;
-}
-
-footer a {
-    color: var(--color-primary);
-}
-
-footer a:hover {
-    color: var(--color-primaryDarkest);
-}
 

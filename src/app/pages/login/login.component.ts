@@ -15,6 +15,7 @@ import { ForgotPasswordComponent } from '../forgot-password/forgot-password.comp
 })
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
+  errorMessage: string = '';
 
   constructor(
     private fb: FormBuilder,
@@ -34,23 +35,29 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(event?: Event) {
-    event?.preventDefault();
-  
-    if (this.loginForm.valid) {
-      const { name, password } = this.loginForm.value;
-      
-      this.authService.login(name, password).subscribe(
-        (response) => {
-          this.authService.saveToken(response.token);
-          localStorage.setItem('userRole', response.role);
-          setTimeout(() => this.redirectUser(), 100);
-        },
-        (error) => {
-          alert('Invalid username or password');
-        }
-      );
-    }
+  event?.preventDefault();
+  this.errorMessage = ''; // Reset the error message before login attempt
+
+  if (this.loginForm.valid) {
+    const { name, password } = this.loginForm.value;
+
+    this.authService.login(name, password).subscribe(
+      (response) => {
+        this.authService.saveToken(response.access_token);
+        localStorage.setItem('userRole', response.role);
+        setTimeout(() => this.redirectUser(), 100);
+      },
+      (error) => {
+        this.errorMessage = error.error.error || 'Invalid username or password'; 
+      }
+    );
   }
+}
+
+// Function to dismiss alert manually
+dismissAlert() {
+  this.errorMessage = '';
+}
   redirectUser() {
     const role = this.authService.getUserRole();
     if (role === 'admin') {
@@ -68,4 +75,5 @@ export class LoginComponent implements OnInit {
   toggleForgotPassword() {
     this.isForgotPasswordMode = !this.isForgotPasswordMode;
   }
+  
 }
