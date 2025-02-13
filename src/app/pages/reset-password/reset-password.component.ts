@@ -7,15 +7,16 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-reset-password',
   imports :[ReactiveFormsModule,CommonModule],
-  templateUrl: './reset_password.component.html',
-  styleUrls: ['./reset_password.component.css']
+  templateUrl: './reset-password.component.html',
+  styleUrls: ['./reset-password.component.css']
 })
 export class ResetPasswordComponent implements OnInit {
   resetPasswordForm: FormGroup;
   token: string | null = null;
   message: string | null = null;
   errorMessage: string | null = null;
-
+  showPassword: boolean = false;
+  showConfirmPassword: boolean = false;
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
@@ -65,7 +66,7 @@ export class ResetPasswordComponent implements OnInit {
             this.errorMessage = null;
             setTimeout(() => {
               this.router.navigate(['/login']);
-            }, 2000);
+            }, 1000);
           },
           error => {
             console.error(error);
@@ -77,5 +78,11 @@ export class ResetPasswordComponent implements OnInit {
         this.errorMessage = 'Password confirmation does not match.';
       }
     }
+  }
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }       
+  toggleConfirmPasswordVisibility() {
+    this.showConfirmPassword = !this.showConfirmPassword;
   }
 }

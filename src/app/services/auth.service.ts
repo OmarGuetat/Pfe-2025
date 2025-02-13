@@ -13,8 +13,8 @@ export class AuthService {
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  login(name: string, password: string): Observable<any> {
-    return this.http.post<any>(this.apiUrl, { name, password }).pipe(
+  login(username: string, password: string): Observable<any> {
+    return this.http.post<any>(this.apiUrl, { username, password }).pipe(
       tap(response => {
         console.log("Login response:", response); // Debugging
         if (response.access_token && response.role) {  // Laravel sends `access_token`

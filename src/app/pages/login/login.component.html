@@ -32,8 +32,11 @@
                   </div>
                     <div class="input-group mb-4">
                       <span class="input-group-text"><i class="bi bi-shield-lock"></i></span>
-                      <input type="password" id="password" formControlName="password" class="form-control form-control-lg"
+                      <input [type]="showPassword ? 'text' : 'password'"  id="password" formControlName="password" class="form-control form-control-lg"
                         placeholder="Password" aria-label="Password"[class.is-invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+                        <span class="input-group-text toggle-icon" (click)="togglePasswordVisibility()">
+                          <i class="bi" [ngClass]="showPassword ? 'bi-eye' : 'bi-eye-slash'"></i>
+                        </span>
                         <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="invalid-feedback">
                           Password is required.
                         </div>

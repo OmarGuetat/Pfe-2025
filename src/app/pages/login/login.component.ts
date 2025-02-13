@@ -16,7 +16,7 @@ import { ForgotPasswordComponent } from '../forgot-password/forgot-password.comp
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   errorMessage: string = '';
-
+  showPassword: boolean = false;
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -53,7 +53,9 @@ export class LoginComponent implements OnInit {
     );
   }
 }
-
+togglePasswordVisibility() {
+  this.showPassword = !this.showPassword;
+}
 // Function to dismiss alert manually
 dismissAlert() {
   this.errorMessage = '';
@@ -61,9 +63,15 @@ dismissAlert() {
   redirectUser() {
     const role = this.authService.getUserRole();
     if (role === 'admin') {
-      this.router.navigate(['/admin/home']);
+      this.router.navigate(['/admin-home']);
     } else if (role === 'employee') {
-      this.router.navigate(['/employee/home']);
+      this.router.navigate(['/employee-home']);
+    }
+    else if (role === 'hr') {
+      this.router.navigate(['/hr-home']);
+    }
+    else if (role === 'accountant') {
+      this.router.navigate(['/accountant-home']);
     }
   }
   getUserRole(): string {
