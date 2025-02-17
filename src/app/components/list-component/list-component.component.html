@@ -1,12 +1,21 @@
-<div class="container mt-4">
-  <div class="row row-cols-1 row-cols-md-3 g-4">
-    <div class="col" *ngFor="let employee of employees">
-      <app-employee-card [employee]="employee"></app-employee-card>
+<div class="container mt-2">
+  <div *ngIf="employees.length > 0; else noResults">
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+      <div class="col" *ngFor="let employee of employees">
+        <app-employee-card [employee]="employee"></app-employee-card>
+      </div>
     </div>
   </div>
-  
-  <!-- Pagination Controls -->
-  <div class="d-flex justify-content-center mt-4">
+
+  <!-- No Results Template -->
+  <ng-template #noResults>
+    <div class="text-center mt-4">
+      <h5 style="color: black;">No employees found.</h5>
+    </div>
+  </ng-template>
+
+  <!-- Pagination Controls (Hidden if there is only one page) -->
+  <div class="d-flex justify-content-center mt-4" *ngIf="totalPages > 1">
     <nav aria-label="Page navigation">
       <ul class="pagination">
         <li class="page-item" [class.disabled]="currentPage === 1">

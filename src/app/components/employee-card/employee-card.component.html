@@ -1,28 +1,21 @@
  <!-- ALERTS -->
-<div *ngIf="showSuccessAlert" class="alert alert-success alert-dismissible fade show position-absolute top-0 end-0 m-3 shadow" role="alert">
-  Employee updated successfully!
-  <button type="button" class="btn-close" (click)="showSuccessAlert = false"></button>
-</div>
-<div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show custom-alert position-absolute top-0 rights-0 end-0 m-3 shadow rounded" role="alert">
-  <i class="bi-exclamation-octagon-fill"></i>
-    <strong class="mx-2">{{ errorMessage }}</strong>
+<!-- Dynamic Bootstrap Alert -->
+<div *ngIf="alertMessage" class="alert alert-dismissible fade show position-absolute top-0 end-0 m-3 shadow" 
+     [ngClass]="alertType" role="alert">
+  <i *ngIf="alertType === 'alert-danger'" class="bi-exclamation-octagon-fill"></i>
+  <strong class="mx-2">{{ alertMessage }}</strong>
   <button type="button" class="btn-close" (click)="dismissAlert()" aria-label="Close"></button>
 </div>
-<!-- Bootstrap Success Alert-->
-<div *ngIf="showDeleteAlert" class="alert alert-success alert-dismissible fade show position-absolute top-0 end-0 m-3 shadow" role="alert">
-  Employee deleted successfully!
-  <button type="button" class="btn-close" (click)="showDeleteAlert = false"></button>
-</div>
-<div class="flip-card m-3">
+<div class="flip-card m-3 ">
   <div class="flip-card-inner" [ngClass]="{ 'flipped': isFlipped }">
     <!-- FRONT SIDE -->
     <div class="flip-card-front card text-center">
       <img [src]="employee.avatar_path" alt="Profile Image"
-           class="rounded-circle border border-white shadow-sm" 
+           class="rounded-circle shadow-sm" 
            style="width: 70px; height: 70px;">
       <div class="card-body">
         <h6 class="mb-1">{{ employee.first_name }} {{ employee.last_name }}</h6>
-        <small class="text-light">{{ employee.role }}</small>
+        <small class="" >{{ employee.role }}</small>
       </div>
     </div>
 
@@ -32,7 +25,7 @@
         <p class="mb-1"><strong>Company:</strong> {{ employee.company }}</p>
         <p class="mb-1"><strong>Email:</strong> {{ employee.email }}</p>
         <p class="mb-1"><strong>Start Date:</strong> {{ employee.start_date | date }}</p>
-        <p class="mb-1"><strong>Initial Leave Balance:</strong> {{ employee.initial_leave_balance }} days</p>
+        <p class="mb-1"><strong>Job Description:</strong> {{ employee.job_description }}</p>
       </div>
     </div>
   </div>
@@ -48,9 +41,6 @@
 <div class="modal fade" id="deleteModal-{{employee.id}}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content position-relative">
-      
-      
-
       <div class="modal-header">
         <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -68,6 +58,7 @@
     </div>
   </div>
 </div>
+
 <!-- Update Modal -->
 <div class="modal fade" id="updateModal-{{employee.id}}" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -79,31 +70,26 @@
       </div>
       <div class="modal-body">
         <form [formGroup]="updateForm">
-          <!-- Username -->
-          <div class="mb-3">
-            <label for="username" class="form-label">Username</label>
-            <input type="text" id="username" class="form-control" formControlName="username">
-            <div *ngIf="updateForm.controls['username'].invalid && updateForm.controls['username'].touched" class="text-danger">
-              Username is required
-            </div>
-          </div>
-
           <!-- Company (Dropdown) -->
           <div class="mb-3">
             <label for="company" class="form-label">Company</label>
             <select id="company" class="form-select" formControlName="company">
-              <option *ngFor="let c of companies" [value]="c">{{ c }}</option>
+              <option  value="procan">Procan</option>
+              <option  value="adequat">Adequat</option>
             </select>
           </div>
-
           <!-- Role (Dropdown) -->
           <div class="mb-3">
             <label for="role" class="form-label">Role</label>
             <select id="role" class="form-select" formControlName="role">
-              <option *ngFor="let r of roles" [value]="r">{{ r }}</option>
+              <option value="employee">Employee</option>
+              <option value="hr">HR</option>
             </select>
           </div>
-
+          <div class="mb-3">
+            <label for="job_description" class="form-label">Job Description</label>
+            <input type="text" class="form-control" id="job_description" formControlName="job_description" required>
+          </div>
           <button type="button" class="btn btn-primary" (click)="submitUpdate()" [disabled]="updateForm.invalid">
             Submit
           </button>

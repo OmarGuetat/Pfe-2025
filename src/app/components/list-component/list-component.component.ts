@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Employee, EmployeeService } from '../../services/employee-service.service';
-import { EmployeeCardComponent } from '../../admin/employee-card/employee-card.component';
+import { EmployeeCardComponent } from '../employee-card/employee-card.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
@@ -29,40 +29,26 @@ export class ListComponent implements OnInit,OnChanges {
       this.performSearch();
     }
   }
-  // Method to load employees for a given page
-  loadEmployees(page: number): void {
-    this.employeeService.getEmployees(page).subscribe(response => {
+  
+  loadEmployees(page: number, query: string = ''): void {
+    this.employeeService.searchEmployees(query, page).subscribe(response => {
       this.employees = response.data;
       this.currentPage = response.meta.current_page;
       this.totalPages = response.meta.total_pages;
       this.totalEmployees = response.meta.total_employees;
-
-      // Generate the page numbers for pagination
-      this.pages = [];
-      for (let i = 1; i <= this.totalPages; i++) {
-        this.pages.push(i);
-      }
+  
+      // Generate page numbers
+      this.pages = Array.from({ length: this.totalPages }, (_, i) => i + 1);
     });
   }
+  
   performSearch(): void {
-    this.employeeService.searchEmployees(this.searchQuery).subscribe(response => {
-      this.updateEmployeeList(response);
-    });
+    this.loadEmployees(1, this.searchQuery); // Start from page 1 when searching
   }
-  updateEmployeeList(response: any) {
-    this.employees = response.users.data;
-    this.currentPage = response.users.current_page;
-    this.totalPages = response.users.last_page;
-    this.totalEmployees = response.users.total;
-
-    this.pages = [];
-    for (let i = 1; i <= this.totalPages; i++) {
-      this.pages.push(i);
-    }
-  }
+  
   changePage(page: number): void {
     if (page >= 1 && page <= this.totalPages) {
-      this.loadEmployees(page);
+      this.loadEmployees(page, this.searchQuery); // Maintain search query on pagination
     }
   }
 }

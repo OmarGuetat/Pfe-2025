@@ -10,15 +10,25 @@ export class AuthGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot): boolean {
     const isAuthenticated = this.authService.isAuthenticated();
+    const userRole = this.authService.getUserRole();
     if (isAuthenticated) {
       // Redirect to home page for authenticated users trying to access login or reset_password
       if (route.routeConfig?.path === 'login' || route.routeConfig?.path === 'reset-password') {
-        this.router.navigate(['/admin-home']);
+        this.router.navigate([this.getHomeRoute(userRole)]);
         return false;
       }
     }
     // If not authenticated, allow access to the route 
     return true;
+  }
+  private getHomeRoute(role: string): string {
+    switch (role) {
+      case 'admin': return '/admin-home';
+      case 'employee': return '/employee-home';
+      case 'hr': return '/hr-home';
+      case 'accountant': return '/accountant-home';
+      default: return '/login';
+    }
   }
 }
 

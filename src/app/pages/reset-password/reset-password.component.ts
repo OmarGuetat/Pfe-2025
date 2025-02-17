@@ -17,6 +17,8 @@ export class ResetPasswordComponent implements OnInit {
   errorMessage: string | null = null;
   showPassword: boolean = false;
   showConfirmPassword: boolean = false;
+  alertMessage: string = '';
+  alertType: string = '';
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
@@ -25,7 +27,7 @@ export class ResetPasswordComponent implements OnInit {
   ) {
     this.resetPasswordForm = this.fb.group(
       {
-        newPassword: ['', [Validators.required, Validators.minLength(8), Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d).+$/)]],
+        newPassword: ['', [Validators.required, Validators.minLength(6), Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d).+$/)]],
         confirmPassword: ['', [Validators.required]]
       },
       { validators: this.passwordsMatch }
@@ -53,7 +55,9 @@ export class ResetPasswordComponent implements OnInit {
       confirmPassword?.setErrors(null);
     }
   }
-
+  dismissAlert() {
+    this.alertMessage = '';
+  }
   onSubmit() {
     if (this.resetPasswordForm.valid) {
       const { newPassword, confirmPassword } = this.resetPasswordForm.value; 
@@ -62,16 +66,17 @@ export class ResetPasswordComponent implements OnInit {
       if (newPassword === confirmPassword) {
         this.authService.resetPassword(this.token, newPassword).subscribe(
           response => {
-            this.message = response.message;
-            this.errorMessage = null;
+            this.alertMessage = response.message || 'Your password has been successfully reset';
+            this.alertType = 'alert-success';
+  
             setTimeout(() => {
+              this.dismissAlert();
               this.router.navigate(['/login']);
-            }, 1000);
+            }, (500));
           },
           error => {
-            console.error(error);
-            this.errorMessage = error.error?.error || 'An error occurred. Please try again.';
-            this.message = null;
+            this.alertMessage = error.error.error || 'An error occurred. Please try again.';
+            this.alertType = 'alert-danger';
           }
         );
       } else {

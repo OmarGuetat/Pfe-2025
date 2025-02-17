@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
+import { NavbarComponent } from '../../components/navbar/navbar.component';
+
 
 @Component({
   selector: 'app-accountant-home',
-  imports: [],
+  imports: [NavbarComponent],
   templateUrl: './accountant-home.component.html',
   styleUrl: './accountant-home.component.css'
 })

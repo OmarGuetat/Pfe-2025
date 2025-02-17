@@ -1,0 +1,13 @@
+.nav-link {
+color: white;
+Transition: background-color 0.3s ease, transform 0.2s ease;
+}
+.nav-link:hover {
+background-color: var(--color-primary-light);
+transform: translateX(5px); 
+}
+.nav-link span {
+font-family: var(--font-family-primary);
+font-size: 1rem;
+}
+

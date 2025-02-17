@@ -32,15 +32,17 @@ export class ForgotPasswordComponent {
         (response) => {
           this.message = response.message || 'A password reset link has been sent to your email.';
           this.error = '';
+          setTimeout(() => {
+            this.message='';
+          }, 500);
         },
         (error) => {
           this.message = '';
           this.error = error.error.email || 'No user found with this email';
         }
-      );
+      );  
     }
   }
-  
 
   goBackToLogin() {
     this.backToLogin.emit();
