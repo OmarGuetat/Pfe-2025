@@ -1,0 +1,7 @@
+.footer {   
+    color: var(--color-text-secondary);
+    border-top: 2px solid var(--color-border);
+    font-family: var(--font-family-secondary);
+    font-size: 0.9rem;
+    
+}

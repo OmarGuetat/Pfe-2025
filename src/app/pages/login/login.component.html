@@ -1,59 +1,62 @@
-<section class="vh-100 ">
-  <!-- Notification Alert -->
-<div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show custom-alert position-absolute rights-0 end-0 m-3 shadow rounded" role="alert">
-  <i class="bi-exclamation-octagon-fill"></i>
-    <strong class="mx-2">{{ errorMessage }}</strong>
-  <button type="button" class="btn-close" (click)="dismissAlert()" aria-label="Close"></button>
-</div>
-
-  <div class="container h-100 ">
-    <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col col-xl-10">
-        <div class="card rounded-5">
-          <div class="row g-0">
-            <div class="d-flex justify-content-center align-items-center h-100 col-md-6 col-lg-5 d-none d-md-block mb-4">
-              <img src="assets/signInImage.svg" alt="login form" class="img-fluid" />
-            </div>
-            <div class="col-md-6 col-lg-7 d-flex align-items-center">
-              <div class="card-body  p-lg-5">
-                <div class="d-flex justify-content-center mb-5 ">
-                  <img src="assets/procanLogo.png" alt="Procan Logo" class="w-75 " />
-                </div>
-                <div *ngIf="!isForgotPasswordMode">
-                  <form [formGroup]="loginForm" (ngSubmit)="onSubmit($event)">
-                    <div class="input-group mb-4">
-                      <span class="input-group-text"><i class="bi bi-person"></i></span>
-                      <input type="text" id="name" formControlName="name" class="form-control form-control-lg"
-                        placeholder="Username" aria-label="Username"  [class.is-invalid]="loginForm.get('name')?.invalid && loginForm.get('name')?.touched">
-                    
-                    <div *ngIf="loginForm.get('name')?.invalid && loginForm.get('name')?.touched" class="invalid-feedback">
-                      Username is required.
-                    </div>
+<body>
+  <section class="vh-100 ">
+    <!-- Notification Alert -->
+  <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show custom-alert position-absolute rights-0 end-0 m-3 shadow rounded" role="alert">
+    <i class="bi-exclamation-octagon-fill"></i>
+      <strong class="mx-2">{{ errorMessage }}</strong>
+    <button type="button" class="btn-close" (click)="dismissAlert()" aria-label="Close"></button>
+  </div>
+  
+    <div class="container h-100 ">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col col-xl-10">
+          <div class="card rounded-5">
+            <div class="row g-0">
+              <div class="d-flex justify-content-center align-items-center h-100 col-md-6 col-lg-5 d-none d-md-block mb-4">
+                <img src="assets/signInImageLighter.svg" alt="login form" class="img-fluid" />
+              </div>
+              <div class="col-md-6 col-lg-7 d-flex align-items-center">
+                <div class="card-body  p-lg-5">
+                  <div class="d-flex justify-content-center mb-5 ">
+                    <img src="assets/procanLogo.png" alt="Procan Logo" class="w-75 " />
                   </div>
-                    <div class="input-group mb-4">
-                      <span class="input-group-text"><i class="bi bi-shield-lock"></i></span>
-                      <input [type]="showPassword ? 'text' : 'password'"  id="password" formControlName="password" class="form-control form-control-lg"
-                        placeholder="Password" aria-label="Password"[class.is-invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
-                        <span class="input-group-text toggle-icon" (click)="togglePasswordVisibility()">
-                          <i class="bi" [ngClass]="showPassword ? 'bi-eye' : 'bi-eye-slash'"></i>
-                        </span>
-                        <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="invalid-feedback">
-                          Password is required.
-                        </div>
+                  <div *ngIf="!isForgotPasswordMode">
+                    <form [formGroup]="loginForm" (ngSubmit)="onSubmit($event)">
+                      <div class="input-group mb-4">
+                        <span class="input-group-text"><i class="bi bi-person"></i></span>
+                        <input type="text" id="name" formControlName="name" class="form-control form-control-lg"
+                          placeholder="Username" aria-label="Username"  [class.is-invalid]="loginForm.get('name')?.invalid && loginForm.get('name')?.touched">
+                      
+                      <div *ngIf="loginForm.get('name')?.invalid && loginForm.get('name')?.touched" class="invalid-feedback">
+                        Username is required.
+                      </div>
                     </div>
-                    <div class="d-flex justify-content-between align-items-center">
-                      <button type="submit" class="btn btn-primary btn-lg px-5">Login</button>
-                      <a class="btn btn-link text-muted small px-2" (click)="toggleForgotPassword()">Forgot password?</a>
-                    </div>
-                  </form>
+                      <div class="input-group mb-4">
+                        <span class="input-group-text"><i class="bi bi-shield-lock"></i></span>
+                        <input [type]="showPassword ? 'text' : 'password'"  id="password" formControlName="password" class="form-control form-control-lg"
+                          placeholder="Password" aria-label="Password"[class.is-invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+                          <span class="input-group-text toggle-icon" (click)="togglePasswordVisibility()">
+                            <i class="bi" [ngClass]="showPassword ? 'bi-eye' : 'bi-eye-slash'"></i>
+                          </span>
+                          <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="invalid-feedback">
+                            Password is required.
+                          </div>
+                      </div>
+                      <div class="d-flex justify-content-between align-items-center">
+                        <button type="submit" class="btn button-primary btn-lg px-5">Login</button>
+                        <a class="btn btn-link text-muted small px-2 bl" (click)="toggleForgotPassword()">Forgot password?</a>
+                      </div>
+                    </form>
+                  </div>
+                  <app-forgot-password *ngIf="isForgotPasswordMode" (backToLogin)="toggleForgotPassword()"></app-forgot-password>  
                 </div>
-                <app-forgot-password *ngIf="isForgotPasswordMode" (backToLogin)="toggleForgotPassword()"></app-forgot-password>  
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
-
+  </section>
+  
+  
+</body>

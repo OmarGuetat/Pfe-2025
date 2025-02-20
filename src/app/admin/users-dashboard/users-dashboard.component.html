@@ -94,7 +94,7 @@
       
       <div class="row align-items-center justify-content-between">
         <!-- Search Bar -->
-        <div class="col-12 col-md-8 col-lg-6 mt-2">
+        <div class="col-12 col-md-8 col-lg-6 mt-3">
           <div class="input-group">
             <input type="text" class="form-control" [(ngModel)]="searchQuery" placeholder="Search..." />
             <span class="input-group-text search " >
@@ -110,7 +110,7 @@
       </div>
      
       
-  <app-list-component [searchQuery]="searchQuery"></app-list-component>
+  <app-list-component [searchQuery]="searchQuery" cardType="employee" ></app-list-component>
 
  
 </div>

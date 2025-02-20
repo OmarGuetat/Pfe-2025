@@ -8,11 +8,12 @@ import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 import { UsersDashboardComponent } from '../users-dashboard/users-dashboard.component';
 import { RouterOutlet } from '@angular/router';
 import { LeaveDashboardComponent } from '../leave-dashboard/leave-dashboard.component';
+import { FooterComponent } from "../../components/footer/footer.component";
 
 
 @Component({
   selector: 'app-admin-home',
-  imports : [CommonModule,FormsModule,NavbarComponent,ReactiveFormsModule,SidebarComponent,UsersDashboardComponent,LeaveDashboardComponent],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, SidebarComponent, UsersDashboardComponent, LeaveDashboardComponent, FooterComponent],
   templateUrl: './admin-home.component.html',
   styleUrls: ['./admin-home.component.css']
 })

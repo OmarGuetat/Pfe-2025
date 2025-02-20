@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
-import { ForgotPasswordComponent } from '../forgot-password/forgot-password.component';
+import { ForgotPasswordComponent } from '../../components/forgot-password/forgot-password.component';
 
 
 @Component({
@@ -44,11 +44,14 @@ export class LoginComponent implements OnInit {
     this.authService.login(name, password).subscribe(
       (response) => {
         this.authService.saveToken(response.access_token);
-        localStorage.setItem('userRole', response.role);
+        localStorage.setItem('role', response.role);
         setTimeout(() => this.redirectUser(), 100);
       },
       (error) => {
         this.errorMessage = error.error.error || 'Invalid username or password'; 
+        setTimeout(() => {
+          this.errorMessage='';
+        }, 4000);
       }
     );
   }

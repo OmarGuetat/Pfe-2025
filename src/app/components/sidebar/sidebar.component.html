@@ -1,16 +1,42 @@
-<div class="d-flex flex-column align-items-center align-items-sm-start px-2 pt-2  min-vh-100 h-100 sidebar">
-    <!-- Logo -->
-    <div class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-      <img src="assets/procanLogo.png" alt="Procan Logo" class="img-fluid sidebar-logo d-none d-sm-inline">
-    </div>
+<div class="d-flex flex-column align-items-center align-items-md-start min-vh-100 h-100 sidebar">
+  <!-- Logo -->
+  <div class="d-flex align-items-center pb-3 mb-md-0 me-md-auto">
+    <img src="assets/procanLogo.png" alt="Procan Logo" class="img-fluid sidebar-logo d-none d-md-inline">
+  </div>
 
-    <!-- Menu Items -->
-    <ul class="nav nav-pills flex-column">
-      <li class="nav-item" *ngFor="let item of menuItems">
-        <a href="#" class="nav-link align-middle px-0" (click)="onMenuClick(item.component)">
-          <i class="fs-4 m-1" [ngClass]="item.icon"></i>
-          <span class="ms-1 d-none d-sm-inline">{{ item.label }}</span>
-        </a>
-      </li>
-    </ul>
+  <!-- Divider Below Logo -->
+  <hr class="sidebar-divider w-100 d-none d-md-inline">
+
+  <!-- Menu Items -->
+  <ul class="nav nav-pills flex-column container-fluid container-sm px-0">
+    <li class="nav-item" *ngFor="let item of menuItems">
+      <a  class="nav-link align-middle px-0" (click)="onMenuClick(item.component)">
+        <i class="fs-4 m-1" [ngClass]="item.icon"></i>
+        <span class="ms-1 d-none d-md-inline">{{ item.label }}</span>
+      </a>
+    </li>
+  </ul>
+<!-- Bottom Divider & User Menu -->
+<hr class="sidebar-divider w-100 mt-auto">
+<div class="dropdown w-100 text-center user-menu">
+  <a class="d-flex align-items-center text-white text-decoration-none dropdown-toggle px-3 py-2"
+     style="cursor: pointer;" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+    <img *ngIf="avatarPath" [src]="avatarPath" alt="User Avatar" class="rounded-circle user-avatar">
+    <i *ngIf="!avatarPath" class="bi bi-person-circle fs-4"></i>
+    <span class="ms-2 d-none d-md-inline">{{ fullName }}</span>
+  </a>
+  <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="userDropdown">
+    <li *ngIf="!isAdmin">
+      <a class="dropdown-item" (click)="navigateToProfile()">Profile</a>
+    </li>
+    <li><a class="dropdown-item">Notifications</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li>
+      <button class="btn d-flex align-items-center text-light dropdown-item" (click)="logout()">
+        <i class="bi bi-box-arrow-right"></i><span class="p-1">Logout</span>
+      </button>
+    </li>
+  </ul>
+  
 </div>
+

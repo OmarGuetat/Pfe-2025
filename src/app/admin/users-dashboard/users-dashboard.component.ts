@@ -10,18 +10,17 @@ import { CandidateService } from '../../services/condidate.service';
 
 @Component({
   selector: 'app-users-dashboard',
-  imports : [CommonModule,ListComponent,FormsModule,ReactiveFormsModule],
+  imports: [CommonModule, ListComponent, FormsModule, ReactiveFormsModule],
   templateUrl: './users-dashboard.component.html',
   styleUrls: ['./users-dashboard.component.css']
 })
 export class UsersDashboardComponent implements OnInit {
   candidateForm!: FormGroup;
-  showSuccessAlert = false;
   alertMessage: string = '';
   alertType: string = '';
-  searchQuery:string='';
+  searchQuery: string = '';
   showPassword: boolean = false;
-  constructor(private formBuilder: FormBuilder, private candidateService: CandidateService) {}
+  constructor(private formBuilder: FormBuilder, private candidateService: CandidateService) { }
 
   ngOnInit(): void {
     this.candidateForm = this.formBuilder.group({
@@ -39,10 +38,10 @@ export class UsersDashboardComponent implements OnInit {
   }
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
-  }  
+  }
   getTodayDate(): string {
     const today = new Date();
-    return today.toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
+    return today.toISOString().split('T')[0]; 
   }
   openModal() {
     const modal = new window.bootstrap.Modal(document.getElementById('addCandidateModal'));
@@ -66,9 +65,9 @@ export class UsersDashboardComponent implements OnInit {
         },
         error => {
           if (error.error) {
-            const errors = error.error; 
-            const firstErrorKey = Object.keys(errors)[0]; 
-          this.alertMessage = errors[firstErrorKey][0]; 
+            const errors = error.error;
+            const firstErrorKey = Object.keys(errors)[0];
+            this.alertMessage = errors[firstErrorKey][0];
           } else {
             this.alertMessage = 'Error adding candidate';
           }

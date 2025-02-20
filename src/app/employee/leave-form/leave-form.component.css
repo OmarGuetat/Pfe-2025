@@ -1,0 +1,20 @@
+.form-check-input {
+  accent-color: var(--color-primary);
+  cursor: pointer;
+}
+
+.form-check-input:checked {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.form-check-input:checked + .form-check-label {
+  color: var(--color-text-primary);
+  font-weight: 600;
+  transform: scale(1.05);
+  transition: all 0.2s ease-in-out;
+}
+
+.form-check-input:checked {
+  box-shadow: 0 0 5px var(--color-primary-light);
+}

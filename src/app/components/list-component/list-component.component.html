@@ -1,11 +1,30 @@
-<div class="container mt-2">
+<div class="container mt-3">
+ <!-- Show employee list when neither details nor requests are open -->
+<div *ngIf="!selectedUserId && !selectedRequestsUserId">
   <div *ngIf="employees.length > 0; else noResults">
     <div class="row row-cols-1 row-cols-md-3 g-4">
       <div class="col" *ngFor="let employee of employees">
-        <app-employee-card [employee]="employee"></app-employee-card>
+        <app-employee-card *ngIf="cardType === 'employee'" [employee]="employee"></app-employee-card>
+        <app-leave-card *ngIf="cardType === 'leave'" 
+                        [leaveEmployee]="employee" 
+                        (onSeeDetails)="onSeeDetails($event)"
+                        (onViewRequests)="onViewRequests($event)">
+        </app-leave-card>
       </div>
     </div>
   </div>
+</div>
+<!-- Show Requests Dashboard when viewingRequests is true -->
+<div *ngIf="selectedRequestsUserId">
+  <app-request-dashboard [userId]="selectedRequestsUserId" (backToList)="onBackToList()"></app-request-dashboard>
+</div>
+
+<!-- Show Leave Details when a user is selected -->
+<div *ngIf="selectedUserId">
+  <app-leave-details [userId]="selectedUserId" (backToList)="onBackToList()"></app-leave-details>
+</div>
+
+
 
   <!-- No Results Template -->
   <ng-template #noResults>
@@ -15,7 +34,7 @@
   </ng-template>
 
   <!-- Pagination Controls (Hidden if there is only one page) -->
-  <div class="d-flex justify-content-center mt-4" *ngIf="totalPages > 1">
+  <div class="d-flex justify-content-center mt-4"  *ngIf="totalPages > 1 && selectedUserId == null ">
     <nav aria-label="Page navigation">
       <ul class="pagination">
         <li class="page-item" [class.disabled]="currentPage === 1">

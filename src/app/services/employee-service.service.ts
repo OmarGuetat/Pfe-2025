@@ -22,6 +22,7 @@ export interface Employee {
 })
 export class EmployeeService {
   private apiUrl = 'http://127.0.0.1:8000/api/admin/users';
+  private api = 'http://127.0.0.1:8000/api';
   constructor(private http: HttpClient) {}
   updateEmployee(id: string, employee: any): Observable<any> {
     const token = localStorage.getItem('authToken');
@@ -38,7 +39,41 @@ export class EmployeeService {
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.get<any>(`http://127.0.0.1:8000/api/admin/users?search=${query}&page=${page}`, { headers });
   }
+  getSidebarData(): Observable<any> {
+    const token = localStorage.getItem('authToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    
+    return this.http.get<any>('http://127.0.0.1:8000/api/user/sidebar', { headers });
+  }
+  getProfileData(): Observable<any> {
+    const token = localStorage.getItem('authToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get<any>(`${this.api}/user/profile`, { headers });
+  }
+  updateProfile(formData: FormData): Observable<any> {
+    const token = localStorage.getItem('authToken');
   
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
   
+    return this.http.post(`${this.api}/user/profile/update`, formData, { headers });
+  }
+  updateUserImage(formData: FormData): Observable<any> {
+    const token = localStorage.getItem('authToken');
+  
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+  
+    return this.http.post(`${this.api}/user/profile/update-avatar`, formData, { headers });
+  }
+  
+  getLeaveRequests(userId: number): Observable<any> {
+    const token = localStorage.getItem('authToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  
+    return this.http.get(`${this.api}/leave-balances/${userId}`, { headers });
+  }
   
 }

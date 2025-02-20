@@ -15,7 +15,9 @@
 .flip-card-inner.flipped {
   transform: rotateY(180deg);
 }
-
+.border-custom {
+  border: 2px solid var(--color-primary);
+}
 .flip-card-front,
 .flip-card-back {
   width: 100%;
@@ -37,13 +39,15 @@
   align-items: center;
   padding: 15px;
 }
+.action-bar{
+  background-color: var(--color-primary-light);
+}
 .action-bar i {
   cursor: pointer;
   transition: all 0.3s ease-in-out;
-  
 }
 .action-bar i:hover {
-  color: #007bff;
+  color: var(--color-primary-lighter);
   transform: scale(1.4); 
 }
 

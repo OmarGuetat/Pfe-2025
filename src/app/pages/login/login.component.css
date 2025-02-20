@@ -1,0 +1,11 @@
+body{
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 50%, var(--color-primary-lighter) 100%);
+
+}
+.toggle-icon {
+    cursor: pointer;
+  }
+  .bl{
+    font-family: var(--font-family-accent);
+    color: var(--color-text-secondary);
+  }

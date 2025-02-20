@@ -1,0 +1,52 @@
+<div class="container mt-3">
+  <!-- Employee Name and Total Leave Days -->
+  <h3>{{ employeeName }}'s Leave Requests</h3>
+  <p><strong>Total Leave Days:</strong> {{ totalLeaveDays }}</p>
+
+  <!-- Year Filter -->
+  <div class="mb-3">
+    <label for="yearFilter">Filter by Year:</label>
+    <select id="yearFilter" class="form-control w-25" [(ngModel)]="selectedYear" (change)="fetchLeaveRequests()">
+      <option *ngFor="let year of availableYears" [value]="year">{{ year }}</option>
+    </select>
+  </div>
+
+  <!-- Leave Requests Table -->
+  <table class="table table-bordered">
+    <thead class="thead-dark">
+      <tr>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Reason</th>
+        <th>Requested Days</th>
+        <th>Effective Days</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let leave of leaveRequests">
+        <td>{{ leave.start_date }}</td>
+        <td>{{ leave.end_date }}</td>
+        <td>{{ leave.reason === 'other' ? leave.other_reason : leave.reason }}</td>
+        <td>{{ leave.leave_days_requested }}</td>
+        <td>{{ leave.effective_leave_days }}</td>
+        <td>
+          <span class="badge" [ngClass]="{
+            'bg-success': leave.status === 'approved',
+            'bg-warning': leave.status === 'pending',
+            'bg-danger': leave.status === 'rejected'
+          }">
+            {{ leave.status | uppercase }}
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Pagination Controls -->
+  <div class="d-flex justify-content-between mt-3">
+    <button class="btn btn-primary" (click)="prevPage()" [disabled]="currentPage === 1">Previous</button>
+    <span>Page {{ currentPage }} of {{ totalPages }}</span>
+    <button class="btn btn-primary" (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+  </div>
+</div>

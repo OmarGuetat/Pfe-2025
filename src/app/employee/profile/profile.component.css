@@ -1,0 +1,11 @@
+.card {
+    background: var(--color-card);
+    color: var(--color-text-primary);
+    border-radius: 10px;
+  }
+.modal-content {
+    background: var(--color-card);
+}
+.position-absolute {
+ z-index: 1055; 
+  }

@@ -34,11 +34,14 @@ export class ForgotPasswordComponent {
           this.error = '';
           setTimeout(() => {
             this.message='';
-          }, 500);
+          }, 2000);
         },
         (error) => {
           this.message = '';
           this.error = error.error.email || 'No user found with this email';
+          setTimeout(() => {
+            this.message='';
+          }, 4000);
         }
       );  
     }
