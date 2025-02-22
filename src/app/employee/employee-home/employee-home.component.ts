@@ -1,23 +1,25 @@
 import { Component } from '@angular/core';
-import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { LeaveFormComponent } from '../leave-form/leave-form.component';
 import { SidebarComponent } from '../../components/sidebar/sidebar.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { ProfileComponent } from '../profile/profile.component';
+import { RequestsUserDashboardComponent } from '../../components/requests-user-dashboard/requests-user-dashboard.component';
+
 
 
 @Component({
   selector: 'app-employee-home',
-  imports: [LeaveFormComponent,SidebarComponent,CommonModule, FormsModule, ReactiveFormsModule,FooterComponent,ProfileComponent],
+  imports: [LeaveFormComponent,SidebarComponent,CommonModule, FormsModule, ReactiveFormsModule,FooterComponent,ProfileComponent,RequestsUserDashboardComponent],
   templateUrl: './employee-home.component.html',
   styleUrl: './employee-home.component.scss'
 })
 export class EmployeeHomeComponent {
   constructor() {}
   menuItems = [
-    { label: 'Leave Form', component: 'leave-form', icon: 'bi-calendar-check' },
+    { label: 'Leave Form', component: 'leave-form', icon: 'bi-calendar4-range' },
+    { label: 'Leave Requests', component: 'user-request-dashboard', icon: 'bi-calendar-check' },
     
   ];
   activeComponent = 'leave-form'; 
@@ -36,8 +38,8 @@ export class EmployeeHomeComponent {
   
 
   loadComponent(componentName: string) {
-    this.activeComponent = componentName;
-    localStorage.setItem('activeComponent', componentName);
-  }
-  
+  this.activeComponent = componentName;
+  localStorage.setItem('activeComponent', componentName);
+}
+
 }

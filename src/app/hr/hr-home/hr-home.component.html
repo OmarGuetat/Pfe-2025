@@ -1,2 +1,26 @@
-<app-navbar></app-navbar>
-<p>hr-home works!</p>
+<div class="container-fluid ">
+    <div class="row ">
+      <!-- Sidebar Component -->
+      <div class="col-2 px-0">
+        <app-sidebar [menuItems]="menuItems" (menuClick)="loadComponent($event)"></app-sidebar>
+      </div>
+  
+      <!-- Content Area -->
+      <div class="col-10 d-flex flex-column container-fluid px-0 ">
+        <div class="flex-grow-1">
+          <ng-container [ngSwitch]="activeComponent">
+            <app-leave-dashboard *ngSwitchCase="'leave-dashboard'"></app-leave-dashboard>
+            <app-users-dashboard *ngSwitchCase="'users-dashboard'"></app-users-dashboard>
+            <app-leave-form *ngSwitchCase="'leave-form'"></app-leave-form>
+            <app-profile *ngSwitchCase="'profile'"></app-profile> 
+            <p *ngSwitchDefault>Select a menu item</p>
+          </ng-container>
+          
+        </div>
+  
+        <!-- Footer -->
+        <app-footer ></app-footer>
+      </div>
+    </div>
+  </div>
+  

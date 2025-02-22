@@ -10,6 +10,9 @@
     --color-text-primary: #121212; /* Deep Black - Main Text */
     --color-text-secondary: #4A4A4A; /* Dark Gray - Less Emphasized Text */
     --color-border: #D1D5DB; /* Light Gray - Dividers, Borders */
+    --color-success: #4CAF50;
+    --color-warning: #FFC107;
+    --color-error: #E63946;
     /* ===== Font Families ===== */
     --font-family-primary: 'Inter', sans-serif; /* Used for Headings */
     --font-family-secondary: 'Roboto', sans-serif; /* Used for Body Text */
@@ -72,3 +75,4 @@ th {
     background: var(--color-primary-light);
     color: white;
 }
+

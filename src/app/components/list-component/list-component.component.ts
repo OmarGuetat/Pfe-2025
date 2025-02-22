@@ -17,7 +17,8 @@ import { RequestDashboardComponent } from '../../admin/request-dashboard/request
 export class ListComponent implements OnInit, OnChanges {
   @Input() searchQuery: string = '';
   @Input() cardType: 'employee' | 'leave' = 'employee';
-  @Output() userSelected = new EventEmitter<number>();
+  
+  
   selectedUserId: number | null = null;
   selectedRequestsUserId: number | null = null;
   employees: any[] = [];
@@ -43,7 +44,7 @@ export class ListComponent implements OnInit, OnChanges {
       this.performSearch();
     }
   }
-
+  
   loadData(page: number, query: string = ''): void {
     if (this.cardType === 'employee') {
       this.employeeService.searchEmployees(query, page).subscribe(response => {

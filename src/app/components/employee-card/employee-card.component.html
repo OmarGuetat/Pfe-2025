@@ -24,6 +24,7 @@
       <div class="card-body p-2">
         <p class="mb-1"><strong>Company:</strong> {{ employee.company }}</p>
         <p class="mb-1"><strong>Email:</strong> {{ employee.email }}</p>
+        <p class="mb-1" *ngIf="employee.phone !==null"><strong>Phone Number:</strong> {{ employee.phone || 'N/A'  }}  </p>
         <p class="mb-1"><strong>Start Date:</strong> {{ employee.start_date | date }}</p>
         <p class="mb-1"><strong>Job Description:</strong> {{ employee.job_description }}</p>
       </div>

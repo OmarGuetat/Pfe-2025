@@ -50,14 +50,54 @@ cancelLeave(leaveId: number): Observable<any> {
   const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
   return this.http.delete<any>(`${this.api}/leave-balances/${leaveId}`, { headers });
 }
-getLeaveRequests(userId: number, year?: number, page: number = 1) {
-  let params: any = { page };
+getLeaveRequests(userId: number, year?: number, page: number = 1) { 
+  const params: any = { page };
   if (year) {
     params.year = year;
   }
-  
-  return this.http.get<any>(`/api/leave-balances/${userId}`, { params });
+
+  const token = localStorage.getItem('authToken');
+  const headers = new HttpHeaders({
+    'Authorization': `Bearer ${token}`
+  });
+
+  return this.http.get<any>(`${this.api}/admin/employees/${userId}/leaves`, { params, headers });
+}
+updateLeaveStatus(leaveId: number, status: string): Observable<any> {
+  const url = `${this.api}/admin/leaves/${leaveId}/status`;
+  const authToken = localStorage.getItem('authToken'); 
+
+  const headers = new HttpHeaders({
+    'Authorization': `Bearer ${authToken}`,
+    'Content-Type': 'application/json'
+  });
+
+  return this.http.patch(url, { status }, { headers });
+}
+getUserLeaveRequests(userId: number, page: number = 1, year?: number): Observable<any> {
+  const token = localStorage.getItem('authToken');
+  const headers = new HttpHeaders({
+    'Authorization': `Bearer ${token}`
+  });
+  const params: any = { page };
+  if (year) {
+    params.year = year;
+  }
+  return this.http.get<any>(`${this.api}/employee/leaves/${userId}?page=${page}`, { params, headers });
+}
+updateLeave(leaveId: number, formData: FormData): Observable<any> {
+  const token = localStorage.getItem('authToken');
+  const headers = new HttpHeaders({
+    'Authorization': `Bearer ${token}`
+  });
+  return this.http.put(`${this.api}/employee/leaves/${leaveId}`, formData,{headers});
 }
 
-
+deleteLeave(leaveId: number): Observable<any> {
+  const token = localStorage.getItem('authToken');
+  const headers = new HttpHeaders({
+    'Authorization': `Bearer ${token}`
+  });
+  return this.http.delete(`${this.api}/employee/leaves/${leaveId}`,{headers});
+}
 }

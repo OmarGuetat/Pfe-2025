@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { LeaveService } from '../../services/leave.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-request-dashboard',
@@ -18,51 +19,52 @@ export class RequestDashboardComponent {
   selectedYear: number | null = null;
   totalLeaveDays: number = 0;
   employeeName: string = "";
-  
-  // Pagination
+  userRole: string = "";
   currentPage: number = 1;
   totalPages: number = 1;
 
-  constructor(private leaveService: LeaveService) {}
+  constructor(private leaveService: LeaveService, private authService: AuthService) {}
 
   ngOnInit() {
+    
     if (this.userId) {
       this.fetchLeaveRequests();
     }
+    this.userRole = this.authService.getUserRole();
   }
-
+  updateLeaveStatus(leaveId: number, status: string) {
+    console.log('Updating leave with ID:', leaveId, 'to status:', status);
+    if (!confirm(`Are you sure you want to mark this leave as ${status.toUpperCase()}?`)) {
+      return;
+    }
+  
+    this.leaveService.updateLeaveStatus(leaveId, status).subscribe(
+      response => {
+        alert('Leave status updated successfully!');
+        this.fetchLeaveRequests(); 
+      },
+      error => {
+        console.error('Error updating leave status:', error);
+        alert('Failed to update leave status. Please try again.');
+      }
+    );
+  }  
   fetchLeaveRequests(): void {
-    if (this.userId === null) 
-    this.leaveService.getLeaveRequests(Number(this.userId), this.selectedYear ?? undefined, this.currentPage)
-      .subscribe((response: {
-        full_name: string;
-        available_years: number[];
-        total_leave_days: number;
-        data: {
-          id: number;
-          start_date: string;
-          end_date: string;
-          reason: string;
-          other_reason?: string;
-          leave_days_requested: number;
-          effective_leave_days: number;
-          status: string;
-        }[];
-        meta: {
-          current_page: number;
-          per_page: number;
-          total_pages: number;
-          total_leaves: number;
-        };
-      }) => {
+    if (this.userId === null) return; 
+  
+    this.leaveService.getLeaveRequests(this.userId, this.selectedYear ?? undefined, this.currentPage)
+      .subscribe((response) => {
         this.leaveRequests = response.data;
         this.availableYears = response.available_years;
-        this.totalLeaveDays = response.total_leave_days;
+        this.totalLeaveDays = this.selectedYear ? response.total_leave_days : 0; 
         this.employeeName = response.full_name;
         this.currentPage = response.meta.current_page;
         this.totalPages = response.meta.total_pages;
+      }, error => {
+        console.error('Error fetching leave details:', error);
       });
   }
+  
   prevPage(): void {
     if (this.currentPage > 1) {
       this.currentPage--;
@@ -79,16 +81,11 @@ export class RequestDashboardComponent {
   
 
   onYearChange() {
-    this.currentPage = 1; // Reset to first page when year changes
+    this.currentPage = 1; 
     this.fetchLeaveRequests();
   }
 
-  goToPage(page: number) {
-    if (page >= 1 && page <= this.totalPages) {
-      this.currentPage = page;
-      this.fetchLeaveRequests();
-    }
-  }
+  
 
   goBack() {
     this.backToList.emit();
