@@ -17,10 +17,8 @@ import { RequestDashboardComponent } from '../../admin/request-dashboard/request
 export class ListComponent implements OnInit, OnChanges {
   @Input() searchQuery: string = '';
   @Input() cardType: 'employee' | 'leave' = 'employee';
-  
-  
-  selectedUserId: number | null = null;
-  selectedRequestsUserId: number | null = null;
+  @Output() selectedUserId: number | null = null;
+  @Output() selectedRequestsUserId: number | null = null;
   employees: any[] = [];
   currentPage: number = 1;
   totalPages: number = 1;
