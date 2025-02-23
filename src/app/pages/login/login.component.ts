@@ -45,6 +45,7 @@ export class LoginComponent implements OnInit {
       (response) => {
         this.authService.saveToken(response.access_token);
         localStorage.setItem('role', response.role);
+        localStorage.setItem('userId', response.id);
         setTimeout(() => this.redirectUser(), 100);
       },
       (error) => {

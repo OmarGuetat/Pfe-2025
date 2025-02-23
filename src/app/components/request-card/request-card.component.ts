@@ -1,88 +1,119 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { LeaveService } from '../../services/leave.service';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-request-card',
-  imports:[CommonModule,FormsModule],
+  standalone: true,
+  imports: [CommonModule, FormsModule,ReactiveFormsModule],
   templateUrl: './request-card.component.html',
   styleUrls: ['./request-card.component.css']
 })
 export class RequestCardComponent {
   @Input() request: any;
-  selectedLeave: any = {};
+  alertMessage: string = '';
+  alertType: string = '';
+  updateForm!: FormGroup;
+  selectedLeaveId!: number; 
+  isModalOpen: boolean = false;
 
 
   constructor(private leaveService: LeaveService) {}
 
-  getStatusClass(status: string) {
-    return status === 'Approved' ? 'status-approved' :
-           status === 'Pending' ? 'status-pending' :
-           status === 'Rejected' ? 'status-rejected' : '';
+  ngOnInit() {
+    this.initializeForm();
   }
+  getStatusLabel(status: string): string {
+    switch (status) {
+      case 'approved':
+        return 'Approved';
+      case 'on_hold':
+        return 'Pending';
+      case 'rejected':
+        return 'Rejected';
+      default:
+        return 'Unknown';
+    }
+  }
+  
+  initializeForm(): void {
+    this.updateForm = new FormGroup({
+      start_date: new FormControl(''),
+      end_date: new FormControl(''),
+      reason: new FormControl(''),
+      attachment: new FormControl(null),
+    });
+  }
+  dismissAlert() {
+    this.alertMessage = '';
+  }
+  openUpdateModal(request: any): void { 
+    
+    this.selectedLeaveId = request.id;
+    this.updateForm.patchValue({
+      start_date: request.start_date,
+      end_date: request.end_date,
+      reason: request.reason,
+    });
 
-  getLeaveDays(): number {
-    return this.request.reason === 'sick_leave' 
-      ? this.request.effective_leave_days 
-      : this.request.leave_days_requested;
-  }
-  // Open Update Modal with current leave details
-  openUpdateModal(leave: any): void {
-    this.selectedLeave = { ...leave };  // Clone the leave object
-    const updateModal = new bootstrap.Modal(document.getElementById('updateLeaveModal'));
+    const updateModal = new bootstrap.Modal(document.getElementById('updateLeaveModal')!);
     updateModal.show();
   }
 
-  // Open Delete Modal
-  openDeleteModal(leaveId: number): void {
-    console.log('Opening delete modal for Leave ID:', leaveId); // Debugging
-    const deleteModal = new bootstrap.Modal(document.getElementById('deleteLeaveModal'));
+  openDeleteModal(requestId: number): void {
+    console.log(this.request.status)
+    this.selectedLeaveId = requestId;
+    const deleteModal = new bootstrap.Modal(document.getElementById('deleteLeaveModal')!);
     deleteModal.show();
   }
-  
 
-  // Handle file change event for attachment
   onFileChange(event: any): void {
-    this.selectedLeave.attachment = event.target.files[0];
-  }
-
-  // Update Leave Request
-  updateLeave(): void {
-    const formData = new FormData();
-    formData.append('start_date', this.selectedLeave.start_date);
-    formData.append('end_date', this.selectedLeave.end_date);
-    formData.append('reason', this.selectedLeave.reason);
-    if (this.selectedLeave.attachment) {
-      formData.append('attachment_path', this.selectedLeave.attachment, this.selectedLeave.attachment.name);
+    const file = event.target.files[0];
+    if (file) {
+      this.updateForm.patchValue({ attachment: file });
     }
+  }
 
-    this.leaveService.updateLeave(this.selectedLeave.id, formData).subscribe(
-      response => {
+  updateLeave(LeaveId : number): void {
+    
+    const formData = new FormData();
+    Object.keys(this.updateForm.value).forEach(key => {
+      if (this.updateForm.value[key]) {
+        formData.append(key, this.updateForm.value[key]);
+      }
+    });
+
+    this.leaveService.updateLeave(LeaveId, formData).subscribe(
+      () => {
         alert('Leave updated successfully!');
-        location.reload();  // Refresh page to see the updated data
       },
-      error => {
-        alert('Error updating leave: ' + error.message);
-      }
+      error => alert('Error updating leave: ' + (error.error?.message || error.message))
     );
   }
 
-  // Delete Leave Request
-  deleteLeave(leaveId: number): void {
-  
-    console.log('Deleting Leave ID:', leaveId); // Debugging
-  
-    this.leaveService.deleteLeave(leaveId).subscribe(
+   // Delete Leave Request
+   deleteLeave(LeaveId : number): void {
+    
+    this.leaveService.deleteLeave(LeaveId).subscribe(
       response => {
-        alert(response.message);
-        location.reload();
+        this.alertMessage = response.message || 'Leave Request Deleted Successfully!';
+        this.alertType = 'alert-success';
+        setTimeout(() => {
+          this.dismissAlert();
+          location.reload();
+        }, 500);
       },
       error => {
-        const errorMessage = error.error?.message || error.error?.error || 'Error deleting leave.';
-        alert(errorMessage);
+        if (error.error) {
+          const errors = error.error; 
+          const firstErrorKey = Object.keys(errors)[0]; 
+        this.alertMessage = errors[firstErrorKey][0]; 
+        } else {
+          this.alertMessage = 'Error Deleting employee';
+        }
+        this.alertType = 'alert-danger';
       }
     );
   }
-  
 }

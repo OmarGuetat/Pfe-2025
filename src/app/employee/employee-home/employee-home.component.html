@@ -10,7 +10,7 @@
         <div class="flex-grow-1">
           <ng-container [ngSwitch]="activeComponent">
             <app-leave-form *ngSwitchCase="'leave-form'"></app-leave-form>
-            <app-requests-user-dashboard *ngSwitchCase="'user-request-dashboard'" [userId]="3" ></app-requests-user-dashboard>
+            <app-requests-user-dashboard *ngSwitchCase="'user-request-dashboard'" ></app-requests-user-dashboard>
             <app-profile *ngSwitchCase="'profile'"></app-profile> 
             <p *ngSwitchDefault>Select a menu item</p>
           </ng-container>

@@ -13,7 +13,7 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./requests-user-dashboard.component.css']
 })
 export class RequestsUserDashboardComponent implements OnInit {
-  @Input() userId!: number;
+  userId: number = +localStorage.getItem('userId')!;
   
   leaveRequests: any[] = [];
   availableYears: number[] = [];
@@ -25,6 +25,7 @@ export class RequestsUserDashboardComponent implements OnInit {
   constructor(private leaveRequestService: LeaveService) {}
 
   ngOnInit(): void {
+    
     this.fetchLeaveRequests();
   }
 

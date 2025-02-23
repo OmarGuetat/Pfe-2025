@@ -26,11 +26,11 @@ body {
 }
 
 /* ===== Headings ===== */
-h1, h2, h3 {
+h1, h2, h3 ,h4 {
     font-family: var(--font-family-primary);
     color: var(--color-primary);
 }
-h4, h5, h6{
+ h5, h6{
     font-family: var(--font-family-secondary);
     color: var(--color-text-secondary);
 }
@@ -53,6 +53,70 @@ h4, h5, h6{
 .button-primary:disabled {
     background: var(--color-primary-lighter);
 }
+/* Secondary Button - Informational (Soft Blue) */
+.button-secondary {
+    background: var(--color-primary-lighter);
+    color: var(--color-text-primary);
+    padding: 10px 16px;
+    border-radius: 6px;
+    
+    cursor: pointer;
+    font-weight: 600;
+    font-family: var(--font-family-accent);
+}
+
+.button-secondary:hover {
+    background: var(--color-primary-light);
+    color: white;
+}
+
+/* warning Button - Update (Golden Yellow) */
+.button-warning {
+    background: var(--color-warning);
+    color: var(--color-text-primary);
+    padding: 10px 16px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    font-family: var(--font-family-accent);
+}
+
+.button-warning:hover {
+    background: #E6A700; /* Slightly darker yellow */
+}
+
+/* Delete Button - Destructive Action (Red) */
+.button-delete {
+    background: var(--color-error);
+    color: white;
+    padding: 10px 16px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    font-family: var(--font-family-accent);
+}
+
+.button-delete:hover {
+    background: #C62828; /* Darker red for hover */
+}
+.button-success {
+    background: var(--color-success);
+    color: white;
+    padding: 10px 16px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    font-family: var(--font-family-accent);
+    transition: 0.3s ease-in-out;
+}
+
+.button-success:hover {
+    background: #218838;
+}
+
 /* ===== Forms & Inputs ===== */
 input, textarea {
     border: 1px solid var(--color-border);

@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-profile',
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss']
+  styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
   profileData: any = {};

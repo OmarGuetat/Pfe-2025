@@ -16,13 +16,13 @@ interface Leave {
   styleUrls: ['./leave-details.component.css']
 })
 export class LeaveDetailsComponent implements OnInit {
-  @Input() userId!: number; // Employee ID passed as input
-  @Output() backToList = new EventEmitter<void>(); // Event emitter for going back to the list
-  leaveData: Leave[] = []; // Specify the type of leaveData as Leave[]
-  currentPage: number = 1; // The current page number
-  totalPages: number = 1; // Total number of pages
-  totalLeaves: number = 0; // Total number of leaves
-  perPage: number = 10; // Leaves per page
+  @Input() userId!: number; 
+  @Output() backToList = new EventEmitter<void>(); 
+  leaveData: Leave[] = []; 
+  currentPage: number = 1; 
+  totalPages: number = 1; 
+  totalLeaves: number = 0; 
+  perPage: number = 10; 
   user: { first_name: string; last_name: string } = { first_name: '', last_name: '' };
 
   constructor(private leaveService: LeaveService) {}

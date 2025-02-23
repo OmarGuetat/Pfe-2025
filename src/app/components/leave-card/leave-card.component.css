@@ -1,3 +1,16 @@
+.leave-card {
+  background: var(--color-card);
+  border-radius: 8px;
+  transition: 0.3s ease-in-out;
+  
+}
+.leave-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
 .border-custom {
-    border: 2px solid var(--color-primary);
-  }
+  border: 2px solid var(--color-primary);
+}
+.btn-group .btn{
+  border: 1px solid var(--color-text-primary);
+}

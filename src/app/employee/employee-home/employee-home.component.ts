@@ -22,7 +22,10 @@ export class EmployeeHomeComponent {
     { label: 'Leave Requests', component: 'user-request-dashboard', icon: 'bi-calendar-check' },
     
   ];
-  activeComponent = 'leave-form'; 
+  activeComponent = 'leave-form';
+  
+
+  
   ngOnInit() {
     // Retrieve the last active component from localStorage
     const savedComponent = localStorage.getItem('activeComponent');

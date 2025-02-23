@@ -90,7 +90,7 @@ updateLeave(leaveId: number, formData: FormData): Observable<any> {
   const headers = new HttpHeaders({
     'Authorization': `Bearer ${token}`
   });
-  return this.http.put(`${this.api}/employee/leaves/${leaveId}`, formData,{headers});
+  return this.http.post(`${this.api}/employee/leaves/${leaveId}`, formData,{headers});
 }
 
 deleteLeave(leaveId: number): Observable<any> {

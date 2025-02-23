@@ -6,7 +6,6 @@ cursor: pointer;
 .nav-link:hover {
 background-color: var(--color-primary-light);
 transform: translateX(5px); 
-
 }
 .nav-link span {
 font-family: var(--font-family-primary);
@@ -16,7 +15,6 @@ font-size: 1rem;
 background: var(--color-primary);
 border-right: 2px solid var(--color-border);
 box-shadow: none;
-
 padding: 20px;
 }
 .sidebar-divider{
@@ -27,5 +25,5 @@ padding: 20px;
     height: 40px;
     object-fit: cover;
     border-radius: 50%;
-  }
+}
   
