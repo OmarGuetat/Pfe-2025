@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { LeaveService } from '../../services/leave.service';
-import { FormsModule, FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, FormGroup, ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-request-card',
@@ -14,84 +14,129 @@ export class RequestCardComponent {
   @Input() request: any;
   alertMessage: string = '';
   alertType: string = '';
+  selectedLeaveId!: number | null;  
   updateForm!: FormGroup;
-  selectedLeaveId!: number; 
-  isModalOpen: boolean = false;
+  attachmentFile!: File | null;
+  attachmentError: string = '';
 
 
-  constructor(private leaveService: LeaveService) {}
+  constructor(private fb: FormBuilder,private leaveService: LeaveService) {}
 
   ngOnInit() {
-    this.initializeForm();
+    this.initForm();
   }
-  getStatusLabel(status: string): string {
-    switch (status) {
-      case 'approved':
-        return 'Approved';
-      case 'on_hold':
-        return 'Pending';
-      case 'rejected':
-        return 'Rejected';
-      default:
-        return 'Unknown';
-    }
-  }
-  
-  initializeForm(): void {
-    this.updateForm = new FormGroup({
-      start_date: new FormControl(''),
-      end_date: new FormControl(''),
-      reason: new FormControl(''),
-      attachment: new FormControl(null),
+  initForm() {
+    this.updateForm = this.fb.group({
+      start_date: [this.request.start_date, Validators.required],
+      end_date: [this.request.end_date, Validators.required],
+      leave_days_requested: [this.request.leave_days_requested, [Validators.required, Validators.min(1)]],
+      reason: [this.request.reason, Validators.required],
+      other_reason: [this.request.other_reason || '', []]
     });
+    this.validateDates();
   }
   dismissAlert() {
     this.alertMessage = '';
   }
   openUpdateModal(request: any): void { 
-    
     this.selectedLeaveId = request.id;
+    console.log(this.selectedLeaveId);
     this.updateForm.patchValue({
       start_date: request.start_date,
       end_date: request.end_date,
       reason: request.reason,
     });
-
-    const updateModal = new bootstrap.Modal(document.getElementById('updateLeaveModal')!);
+  
+    // Dynamically target the modal based on the request ID
+    const updateModal = new bootstrap.Modal(document.getElementById('updateLeaveModal-' + request.id)!);
     updateModal.show();
   }
+  
+  // Handle Reason Change
+  onReasonChange() {
+    if (this.updateForm.value.reason === 'other') {
+      this.updateForm.controls['other_reason'].setValidators([Validators.required]);
+    } else {
+      this.updateForm.controls['other_reason'].clearValidators();
+    }
+    this.updateForm.controls['other_reason'].updateValueAndValidity();
+  }
 
+  // Validate Start and End Dates
+  validateDates() {
+    const start = this.updateForm.value.start_date;
+    const end = this.updateForm.value.end_date;
+
+    if (start && end && new Date(end) < new Date(start)) {
+      this.updateForm.controls['end_date'].setErrors({ dateInvalid: true });
+    } else {
+      this.updateForm.controls['end_date'].setErrors(null);
+    }
+  }
+
+  // Handle File Upload
+  onFileChange(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      if (!['application/pdf', 'image/jpeg', 'image/png'].includes(file.type)) {
+        this.attachmentError = 'Invalid file format. Only PDF, JPG, or PNG allowed.';
+        this.attachmentFile = null;
+      } else if (file.size > 2 * 1024 * 1024) {
+        this.attachmentError = 'File size must be less than 2MB.';
+        this.attachmentFile = null;
+      } else {
+        this.attachmentError = '';
+        this.attachmentFile = file;
+      }
+    }
+  }
+
+  // Submit Form
+  updateLeave() {
+    if (this.updateForm.invalid) return;
+
+    const formData = new FormData();
+    formData.append('start_date', this.updateForm.value.start_date);
+    formData.append('end_date', this.updateForm.value.end_date);
+    formData.append('leave_days_requested', this.updateForm.value.leave_days_requested);
+    formData.append('reason', this.updateForm.value.reason);
+
+    if (this.updateForm.value.reason === 'other') {
+      formData.append('other_reason', this.updateForm.value.other_reason);
+    }
+
+    if (this.attachmentFile) {
+      formData.append('attachment', this.attachmentFile);
+    }
+    console.log(this.selectedLeaveId);
+    this.leaveService.updateLeave(Number(this.selectedLeaveId), formData).subscribe(
+      response => {
+        console.log(this.selectedLeaveId);
+        this.alertMessage = response.message || 'Leave Request Updated Successfully!';
+        this.alertType = 'alert-success';
+        setTimeout(() => {
+          this.dismissAlert();
+          location.reload();
+        }, 500);
+      },
+      error => {
+        if (error.error) {
+          const errors = error.error; 
+          const firstErrorKey = Object.keys(errors)[0]; 
+        this.alertMessage = errors[firstErrorKey][0]; 
+        } else {
+          this.alertMessage = 'Error Updating Leave Request';
+        }
+        this.alertType = 'alert-danger';
+      }
+    );
+  }
   openDeleteModal(requestId: number): void {
     console.log(this.request.status)
     this.selectedLeaveId = requestId;
     const deleteModal = new bootstrap.Modal(document.getElementById('deleteLeaveModal')!);
     deleteModal.show();
   }
-
-  onFileChange(event: any): void {
-    const file = event.target.files[0];
-    if (file) {
-      this.updateForm.patchValue({ attachment: file });
-    }
-  }
-
-  updateLeave(LeaveId : number): void {
-    
-    const formData = new FormData();
-    Object.keys(this.updateForm.value).forEach(key => {
-      if (this.updateForm.value[key]) {
-        formData.append(key, this.updateForm.value[key]);
-      }
-    });
-
-    this.leaveService.updateLeave(LeaveId, formData).subscribe(
-      () => {
-        alert('Leave updated successfully!');
-      },
-      error => alert('Error updating leave: ' + (error.error?.message || error.message))
-    );
-  }
-
    // Delete Leave Request
    deleteLeave(LeaveId : number): void {
     
@@ -110,7 +155,7 @@ export class RequestCardComponent {
           const firstErrorKey = Object.keys(errors)[0]; 
         this.alertMessage = errors[firstErrorKey][0]; 
         } else {
-          this.alertMessage = 'Error Deleting employee';
+          this.alertMessage = 'Error Deleting Leave Request';
         }
         this.alertType = 'alert-danger';
       }

@@ -22,9 +22,18 @@
         <strong>End Date:</strong>&nbsp;{{ request.end_date }}
       </p>
       <p class="d-flex align-items-center">
-        <i class="bi bi-chat-left-text me-2 "></i>
-        <strong>Reason:</strong>&nbsp;{{ request.reason || request.other_reason }}
+        <i class="bi bi-chat-left-text me-2"></i>
+        <strong>Reason:</strong>&nbsp;
+        <span [ngSwitch]="request.reason">
+          <span *ngSwitchCase="'paternity_leave'">Paternity Leave</span>
+          <span *ngSwitchCase="'maternity_leave'">Maternity Leave</span>
+          <span *ngSwitchCase="'vacation'">Vacation</span>
+          <span *ngSwitchCase="'sick_leave'">Sick Leave</span>
+          <span *ngSwitchCase="'travel_leave'">Travel</span>
+          <span *ngSwitchDefault>{{ request.other_reason || 'N/A' }}</span>
+        </span>
       </p>
+      
       <p class="d-flex align-items-center">
         <i class="bi bi-info-circle me-2"></i>
         <strong>Status:</strong>&nbsp;
@@ -33,7 +42,11 @@
           'text-warning': request.status === 'on_hold',
           'text-danger': request.status === 'rejected'
         }">
-          {{ getStatusLabel(request.status) }}
+          <span [ngSwitch]="request.status">
+            <span *ngSwitchCase="'approved'">Approved</span>
+            <span *ngSwitchCase="'rejected'">Rejected</span>
+            <span *ngSwitchCase="'on_hold'">Pending</span>
+          </span>
         </span>
       </p>
       
@@ -77,8 +90,9 @@
   </div>
 </div>
 
-<!-- Modal for Update -->
-<div class="modal fade" id="updateLeaveModal" tabindex="-1" aria-labelledby="updateLeaveModalLabel" aria-hidden="true">
+<!-- Update Leave Modal -->
+<!-- Update Leave Modal (Dynamic ID) -->
+<div class="modal fade" [id]="'updateLeaveModal-' + request.id" tabindex="-1" aria-labelledby="updateLeaveModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -86,29 +100,64 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body">
-        <form [formGroup]="updateForm" (ngSubmit)="updateLeave(request.id)">
+        <form [formGroup]="updateForm" (ngSubmit)="updateLeave()">
+          <!-- Start Date -->
           <div class="mb-3">
             <label for="start_date" class="form-label">Start Date</label>
-            <input type="date" formControlName="start_date" class="form-control" required>
+            <input type="date" formControlName="start_date" class="form-control" (change)="validateDates()">
+            <small *ngIf="updateForm.controls['start_date'].errors?.['required']" class="text-danger">Start date is required.</small>
           </div>
+
+          <!-- End Date -->
           <div class="mb-3">
             <label for="end_date" class="form-label">End Date</label>
-            <input type="date" formControlName="end_date" class="form-control" required>
+            <input type="date" formControlName="end_date" class="form-control" (change)="validateDates()">
+            <small *ngIf="updateForm.controls['end_date'].errors?.['required']" class="text-danger">End date is required.</small>
+            <small *ngIf="updateForm.controls['end_date'].errors?.['dateInvalid']" class="text-danger">End date cannot be before start date.</small>
           </div>
+          <!--Days Requested-->
+          <div class="mb-3">
+            <label for="leave_days_requested" class="form-label">Leave Days Requested</label>
+            <input type="number" formControlName="leave_days_requested" class="form-control" min="1">
+            <small *ngIf="updateForm.controls['leave_days_requested'].errors?.['required']" class="text-danger">Leave days are required.</small>
+            <small *ngIf="updateForm.controls['leave_days_requested'].errors?.['min']" class="text-danger">Must be at least 1 day.</small>
+          </div>
+          
+          <!-- Reason Dropdown -->
           <div class="mb-3">
             <label for="reason" class="form-label">Reason</label>
-            <input type="text" formControlName="reason" class="form-control" required>
+            <select formControlName="reason" class="form-select" (change)="onReasonChange()">
+              <option value="vacation">Vacation</option>
+              <option value="travel_leave">Travel</option>
+              <option value="paternity_leave">Paternity Leave</option>
+              <option value="maternity_leave">Maternity Leave</option>
+              <option value="sick_leave">Sick Leave</option>
+              <option value="other">Other</option>
+            </select>
           </div>
-          <div *ngIf="request.reason==='sick_leave'" class="mb-3" >
-            <label for="attachment" class="form-label">Attachment</label>
-            <input  type="file" id="attachment" (change)="onFileChange($event)" class="form-control">
+
+          <!-- Other Reason Input (Only if "Other" is selected) -->
+          <div class="mb-3" *ngIf="updateForm.value.reason === 'other'">
+            <label for="other_reason" class="form-label">Specify Reason</label>
+            <input type="text" formControlName="other_reason" class="form-control">
+            <small *ngIf="updateForm.controls['other_reason'].errors?.['required']" class="text-danger">Please provide a reason.</small>
           </div>
+
+          <!-- Attachment (Only if "Sick Leave" is selected) -->
+          <div class="mb-3" *ngIf="updateForm.value.reason === 'sick_leave'">
+            <label for="attachment" class="form-label">Medical Certificate (PDF, JPG, PNG)</label>
+            <input type="file" (change)="onFileChange($event)" class="form-control">
+            <small *ngIf="attachmentError" class="text-danger">{{ attachmentError }}</small>
+          </div>
+
+          <!-- Submit Button -->
           <button type="submit" class="btn btn-primary">Update Leave</button>
         </form>
       </div>
     </div>
   </div>
 </div>
+
 <!-- Modal for Delete -->
 <div class="modal fade" id="deleteLeaveModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog">
