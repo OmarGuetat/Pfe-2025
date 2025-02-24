@@ -32,12 +32,12 @@ export class LeaveFormComponent {
     this.leaveForm = this.fb.group({
       start_date: [this.getTodayDate(), Validators.required],
       end_date: ['', [Validators.required]],
-      leave_days_requested: ['', [Validators.required, Validators.min(1)]],
-      leave_days_current_year: ['', [Validators.min(0)]], // Nullable
-      leave_days_next_year: ['', [Validators.min(0)]], // Nullable
+      leave_days_requested: ['', [Validators.required, Validators.min(0.5)]],
+      leave_days_current_year: ['', [Validators.min(0.5)]], 
+      leave_days_next_year: ['', [Validators.min(0.5)]], 
       reason: ['', Validators.required],
-      other_reason: [''], // Required only if reason is "other"
-      attachment: [null] // Required only if reason is "sick_leave"
+      other_reason: [''], 
+      attachment: [null] 
     });
   }
   dismissAlert() {

@@ -34,3 +34,51 @@
     object-fit: cover;
     border-radius: 50%;
 }
+/* Ensure the dropdown is styled correctly */
+.animated-dropdown {
+    
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    overflow: hidden;
+    transform-origin: top;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Hide dropdown by default */
+.animated-dropdown:not(.show) {
+    opacity: 0;
+    transform: scaleY(0);
+}
+
+/* Show dropdown with animation */
+.animated-dropdown.show {
+    opacity: 1;
+    transform: scaleY(1);
+}
+
+/* Dropdown items */
+.sidebar-dropdown-item {
+    color: white;
+   
+    transition: background-color 0.3s ease;
+}
+
+/* Hover effect */
+.sidebar-dropdown-item:hover {
+    background-color: var(--color-primary-light);
+    color: var(--color-border);
+}
+
+/* Logout button */
+.sidebar-logout-btn {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.sidebar-logout-btn:hover {
+    color: var(--color-danger);
+}
+

@@ -54,16 +54,21 @@ export class ProfileComponent implements OnInit {
         response => {
           this.alertMessage = response.message || 'Avatar updated successfully!';
           this.alertType = 'alert-success';
-  
-          // Force reload the image
-          this.profileData.avatar_path = response.avatar_path + '?' + new Date().getTime();
-  
-          setTimeout(() => this.dismissAlert(), 1000);
+          setTimeout(() => {
+            this.dismissAlert();
+            location.reload();
+          }, 500);
         },
         error => {
-          this.alertMessage = error.error?.errors?.avatar_path?.[0] || 'Error updating avatar';
+          if (error.error) {
+            const errors = error.error;
+            const firstErrorKey = Object.keys(errors)[0];
+            this.alertMessage = errors[firstErrorKey][0];
+          } else {
+            this.alertMessage = 'Error updating avatar';
+          }
           this.alertType = 'alert-danger';
-        }
+        } 
       );
     }
   }

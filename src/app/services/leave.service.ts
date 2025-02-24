@@ -100,4 +100,12 @@ deleteLeave(leaveId: number): Observable<any> {
   });
   return this.http.delete(`${this.api}/employee/leaves/${leaveId}`,{headers});
 }
+downloadLeavePdf(leaveId: number) {
+  const token = localStorage.getItem('authToken');
+  const headers = new HttpHeaders({
+    'Authorization': `Bearer ${token}`
+  });
+  const url = `${this.api}/leave/${leaveId}/download`;
+  return this.http.get(url, { responseType: 'blob',headers });
+}
 }

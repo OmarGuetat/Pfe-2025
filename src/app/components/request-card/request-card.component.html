@@ -1,19 +1,18 @@
-<!-- ALERTS: Wrapped inside position-relative to prevent overlap -->
-<div class="position-relative">
+<!-- ALERT -->
   <div *ngIf="alertMessage" class="alert alert-dismissible fade show position-absolute top-0 end-0 m-3 shadow"
        [ngClass]="alertType" role="alert">
     <i *ngIf="alertType === 'alert-danger'" class="bi-exclamation-octagon-fill"></i>
     <strong class="mx-2">{{ alertMessage }}</strong>
     <button type="button" class="btn-close" (click)="dismissAlert()" aria-label="Close"></button>
   </div>
-</div>
+
 
 <!-- Main Card -->
 <div class="card shadow-sm ">
   
   <!-- Card Header -->
   <div class="card-header d-flex align-items-center justify-content-between">
-    <h5 class="card-title d-flex align-items-center">
+    <h5 class="card-title my-1">
       <i class="bi bi-calendar-check me-2"></i>Leave Request
     </h5>
     
@@ -29,8 +28,8 @@
           </a>
         </li>
         <li *ngIf="request.status !== 'on_hold'">
-          <button class="dropdown-item">
-            <i class="bi bi-download me-2"></i>Download Attachment
+          <button class="dropdown-item" (click)="downloadPdf(request.id)">
+            <i class="bi bi-download me-2"></i>Download PDF
           </button>
         </li>
         <li *ngIf="request.status === 'on_hold'">
@@ -110,7 +109,7 @@
 <div class="modal fade" [id]="'updateLeaveModal-' + request.id" tabindex="-1" aria-labelledby="updateLeaveModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="modal-header" >
+      <div class="modal-header">
         <h5 class="modal-title">Update Leave Request</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>

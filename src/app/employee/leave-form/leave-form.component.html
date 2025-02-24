@@ -61,18 +61,21 @@
           <label for="leaveDays" class="form-label">
             <i class="bi bi-calendar-check"></i> Number of Leave Days This Year
           </label>
-          <input type="number" id="leaveDays" class="form-control" formControlName="leave_days_requested" required>
+          <input type="number" id="leaveDays" class="form-control" formControlName="leave_days_requested" required step="0.5" min="0">
           <div *ngIf="leaveForm.controls['leave_days_requested'].invalid && leaveForm.controls['leave_days_requested'].touched" class="text-danger">
-            Number of leave days must be at least 1.
+            Number of leave days must be at least 0.5.
           </div>
         </div>
 
         <!-- Number of Leave Days Next Year (Conditionally Displayed) -->
         <div class="mb-3" *ngIf="showNextYearDays">
-          <label for="leave_days_next_year" class="form-label">
+          <label for="leave_days_next_year" class="form-label" >
             <i class="bi bi-calendar3"></i> Number of Leave Days Next Year
           </label>
-          <input type="number" id="leave_days_next_year" class="form-control" formControlName="leave_days_next_year">
+          <input type="number" id="leave_days_next_year" class="form-control" formControlName="leave_days_next_year" step="0.5" min="0" required>
+          <div *ngIf="leaveForm.controls['leave_days_next_year'].invalid && leaveForm.controls['leave_days_next_year'].touched" class="text-danger">
+            Number of leave days must be at least 0.5.
+          </div>
         </div>
 
         <!-- Leave Reason -->

@@ -24,6 +24,8 @@ export class RequestDashboardComponent {
   userRole: string = "";
   currentPage: number = 1;
   totalPages: number = 1;
+  alertMessage: string = '';
+  alertType: string = '';
 
   constructor(private leaveService: LeaveService, private authService: AuthService) {}
 
@@ -42,15 +44,29 @@ export class RequestDashboardComponent {
   
     this.leaveService.updateLeaveStatus(leaveId, status).subscribe(
       response => {
-        alert('Leave status updated successfully!');
-        this.fetchLeaveRequests(); 
+        this.alertMessage = response.message || 'Leave status updated successfully!';
+        this.alertType = 'alert-success';
+
+        setTimeout(() => {
+          this.dismissAlert();
+    
+        }, 1000);
       },
       error => {
-        console.error('Error updating leave status:', error);
-        alert('Failed to update leave status. Please try again.');
+        if (error.error) {
+          const errors = error.error; 
+          const firstErrorKey = Object.keys(errors)[0]; 
+        this.alertMessage = errors[firstErrorKey][0]; 
+        } else {
+          this.alertMessage = 'Error updating leave status';
+        }
+        this.alertType = 'alert-danger';
       }
     );
   }  
+  dismissAlert() {
+    this.alertMessage = '';
+  }
   fetchLeaveRequests(): void {
     if (this.userId === null) return; 
   

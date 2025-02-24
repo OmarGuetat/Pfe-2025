@@ -1,6 +1,9 @@
-
+.card-header{
+  background-color: var(--color-primary);
+}
   .card-title {
     font-weight: bold;
+    color: aliceblue;
     
   }
  /* Use global colors & Bootstrap */
