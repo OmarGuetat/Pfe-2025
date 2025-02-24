@@ -12,7 +12,7 @@
     <div class="flip-card-front card text-center">
       <img [src]="employee.avatar_path" alt="Profile Image"
            class="rounded-circle border-custom shadow-sm" 
-           style="width: 95px; height: 95px;">
+           style="width: 95px; height: 95px;object-fit: cover;">
       <div class="card-body">
         <h6 class="mb-1">{{ employee.first_name }} {{ employee.last_name }}</h6>
         <small class="" >{{ employee.role }}</small>

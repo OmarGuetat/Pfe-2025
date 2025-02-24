@@ -1,15 +1,21 @@
+/* Default sidebar link */
 .nav-link {
-color: white;
-Transition: background-color 0.3s ease, transform 0.2s ease;
-cursor: pointer;
+    color: white;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    cursor: pointer;
+    border-radius: 8px; 
+    padding: 10px 30px;
 }
+.nav-link.active {
+    background-color: var(--color-border);
+    color: var(--color-primary);
+    font-weight: bold;
+    transform: translateX(5px);
+}
+/* Hover effect */
 .nav-link:hover {
-background-color: var(--color-primary-light);
-transform: translateX(5px); 
-}
-.nav-link span {
-font-family: var(--font-family-primary);
-font-size: 1rem;
+    background-color: var(--color-primary-light);
+    transform: translateX(5px);
 }
 .sidebar {
 background: var(--color-primary);
@@ -26,4 +32,3 @@ padding: 20px;
     object-fit: cover;
     border-radius: 50%;
 }
-  

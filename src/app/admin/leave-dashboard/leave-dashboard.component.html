@@ -1,5 +1,5 @@
 <div class="container ">
-  <div class="input-group mt-3">
+  <div class="input-group mt-3" *ngIf="selectedRequestsUserIdChange == null && selectedUserIdChange == null" >
     <input
       type="text"
       class="form-control"
@@ -12,5 +12,6 @@
     </span>
   </div>
 
-  <app-list-component [cardType]="'leave'" [searchQuery]="searchQuery"></app-list-component>
+  <app-list-component [cardType]="'leave'" [searchQuery]="searchQuery"(selectedUserIdChange)="onUserSelected($event)"
+  (selectedRequestsUserIdChange)="onRequestsUserSelected($event)">w</app-list-component>
 </div>

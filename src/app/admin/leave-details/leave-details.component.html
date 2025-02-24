@@ -1,10 +1,12 @@
-<div class="container mt-3">
-    <button class="btn btn-secondary mb-3" (click)="onBackClick()">Back to List</button>
+<div class="container mt-2">
+  <button class="btn rounded-circle border-custom mb-2 " (click)="onBackClick()">
+    <i class="bi bi-arrow-left "></i>
+  </button>
   
     <div *ngIf="leaveData.length > 0; else noResults">
       <div class="card">
         <div class="card-header">
-            <h5>{{ user.first_name }} {{ user.last_name }} - Leave Details</h5> 
+            <h5 class="fw-semibold">{{ user.first_name }} {{ user.last_name }} - Leave Details</h5> 
         </div>
         <div class="card-body">
           <table class="table table-bordered">
@@ -28,24 +30,12 @@
             </tbody>
           </table>
   
-          <!-- Pagination Controls -->
-          <div class="d-flex justify-content-center mt-4">
-            <nav aria-label="Page navigation">
-              <ul class="pagination">
-                <li class="page-item" [class.disabled]="currentPage === 1">
-                  <button class="page-link" (click)="goToPreviousPage()" [disabled]="currentPage === 1">Previous</button>
-                </li>
-                <li class="page-item" *ngFor="let page of [].constructor(totalPages); let i = index">
-                  <button class="page-link" (click)="goToPage(i + 1)" [class.active]="i + 1 === currentPage">
-                    {{ i + 1 }}
-                  </button>
-                </li>
-                <li class="page-item" [class.disabled]="currentPage === totalPages">
-                  <button class="page-link" (click)="goToNextPage()" [disabled]="currentPage === totalPages">Next</button>
-                </li>
-              </ul>
-            </nav>
-          </div>
+           <!-- Pagination Controls -->
+  <div class="d-flex justify-content-between mt-3">
+    <button class="button-primary" (click)="goToPreviousPage()" [disabled]="currentPage === 1">Previous</button>
+    <span class="fw-semibold">Page {{ currentPage }} of {{ totalPages }}</span>
+    <button class="button-primary" (click)="goToNextPage()" [disabled]="currentPage === totalPages">Next</button>
+  </div>
         </div>
       </div>
     </div>

@@ -1,18 +1,23 @@
 <div class="container mt-3">
-  <button class="btn btn-secondary mb-3" (click)="goBack()">Back to List</button>
+  
+    <button class="btn rounded-circle border-custom  " (click)="goBack()">
+      <i class="bi bi-arrow-left "></i>
+    </button>
+    <h3 class="mx-auto fw-bold mt-3">{{ employeeName }}'s Leave Requests</h3>
+  
+  
 
-  <h3>{{ employeeName }}'s Leave Requests</h3>
-
-  <!-- Total Leave Days: Show only when a year is selected -->
-  <p *ngIf="selectedYear"><strong>Total Leave Days:</strong> {{ totalLeaveDays }}</p>
+ 
 
   <!-- Year Filter -->
-  <div class="mb-3">
-    <label for="yearFilter">Filter by Year:</label>
+  <div class="my-2">
+    <h5 for="yearFilter fw-bold"><i class="bi bi-filter"></i>Filter by Year</h5>
     <select id="yearFilter" class="form-control w-25" [(ngModel)]="selectedYear" (change)="onYearChange()" >
       <option [ngValue]="null" selected>Select Year</option>
       <option *ngFor="let year of availableYears" [value]="year">{{ year }}</option>
     </select>
+     <!-- Total Leave Days: Show only when a year is selected -->
+  <p *ngIf="selectedYear" class="mt-1"><strong>Total Leave Days:</strong> {{ totalLeaveDays }}</p>
   </div>
 
   <!-- Leave Requests Table -->
@@ -89,8 +94,9 @@
 
   <!-- Pagination Controls -->
   <div class="d-flex justify-content-between mt-3">
-    <button class="btn btn-primary" (click)="prevPage()" [disabled]="currentPage === 1">Previous</button>
-    <span>Page {{ currentPage }} of {{ totalPages }}</span>
-    <button class="btn btn-primary" (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+    <button class="button-primary" (click)="prevPage()" [disabled]="currentPage === 1">Previous</button>
+    <span class="fw-semibold">Page {{ currentPage }} of {{ totalPages }}</span>
+    <button class="button-primary" (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
   </div>
+  
 </div>

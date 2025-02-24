@@ -1,0 +1,37 @@
+<mat-sidenav-container
+        class="example-container" (backdropClick)="close('backdrop')">
+      <mat-sidenav #sidenav (keydown.escape)="close('escape')" disableClose>
+        <p><button mat-button (click)="close('toggle button')">Toggle</button></p>
+      </mat-sidenav>
+  
+      <mat-sidenav-content>
+        
+        <div class="container-fluid ">
+            
+            <div class="row ">
+              <!-- Sidebar Component -->
+              <div class="col-2 px-0">
+                <p><button mat-button (click)="sidenav.open()">Open</button></p>
+                <app-sidebar [menuItems]="menuItems" (menuClick)="loadComponent($event)"></app-sidebar>
+                
+              </div>
+             
+              <!-- Content Area -->
+              <div class="col-10 d-flex flex-column container-fluid px-0 ">
+                <div class="flex-grow-1">
+                  <ng-container [ngSwitch]="activeComponent">
+                    <app-leave-dashboard *ngSwitchCase="'leave-dashboard'"></app-leave-dashboard>
+                    <app-users-dashboard *ngSwitchCase="'users-dashboard'"></app-users-dashboard>
+                    
+                    <p *ngSwitchDefault>Select a menu item</p>
+                  </ng-container>
+                </div>
+          
+                <!-- Footer -->
+                <app-footer ></app-footer>
+              </div>
+            </div>
+          </div>
+          
+      </mat-sidenav-content>
+    </mat-sidenav-container>

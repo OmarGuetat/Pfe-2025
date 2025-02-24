@@ -3,10 +3,12 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { LeaveService } from '../../services/leave.service';
 import { AuthService } from '../../services/auth.service';
+import {MatSelectModule} from '@angular/material/select';
+import {MatFormFieldModule} from '@angular/material/form-field';
 
 @Component({
   selector: 'app-request-dashboard',
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule,FormsModule,MatFormFieldModule, MatSelectModule],
   templateUrl: './request-dashboard.component.html',
   styleUrl: './request-dashboard.component.css'
 })

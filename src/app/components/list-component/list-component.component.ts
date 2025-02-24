@@ -17,8 +17,10 @@ import { RequestDashboardComponent } from '../../admin/request-dashboard/request
 export class ListComponent implements OnInit, OnChanges {
   @Input() searchQuery: string = '';
   @Input() cardType: 'employee' | 'leave' = 'employee';
-  @Output() selectedUserId: number | null = null;
-  @Output() selectedRequestsUserId: number | null = null;
+  @Output() selectedUserIdChange = new EventEmitter<number | null>();
+  @Output() selectedRequestsUserIdChange = new EventEmitter<number | null>();
+  selectedUserId: number | null = null;
+  selectedRequestsUserId: number | null = null;
   employees: any[] = [];
   currentPage: number = 1;
   totalPages: number = 1;
@@ -73,17 +75,18 @@ export class ListComponent implements OnInit, OnChanges {
     }
   }
   onSeeDetails(userId: number): void {
-    console.log('See Details clicked for userId:', userId);
+    this.selectedUserIdChange.emit(userId);
     this.selectedUserId = userId;
   }
   onViewRequests(userId: number): void {
-    console.log('View Requests clicked for userId:', userId);
+    this.selectedRequestsUserIdChange.emit(userId);
     this.selectedRequestsUserId = userId;
    
   }
   onBackToList(): void {
     this.selectedUserId = null;
     this.selectedRequestsUserId=null;
-    
+    this.selectedUserIdChange.emit(null);
+    this.selectedRequestsUserIdChange.emit(null);
   }
 }

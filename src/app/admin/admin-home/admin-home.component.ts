@@ -9,6 +9,7 @@ import { UsersDashboardComponent } from '../users-dashboard/users-dashboard.comp
 import { RouterOutlet } from '@angular/router';
 import { LeaveDashboardComponent } from '../leave-dashboard/leave-dashboard.component';
 import { FooterComponent } from "../../components/footer/footer.component";
+import { SidenavComponent } from '../../components/sidenav/sidenav.component';
 
 
 @Component({

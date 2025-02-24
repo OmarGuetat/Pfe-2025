@@ -12,7 +12,7 @@ import { EmployeeService } from '../../services/employee-service.service';
 export class SidebarComponent implements OnInit {
   @Output() menuClick = new EventEmitter<string>();
   @Input() menuItems: any[] = [];
-
+  activeComponent: string = '';
   avatarPath: string = '';
   fullName: string = 'User';
   isAdmin: boolean = false;
@@ -36,8 +36,10 @@ export class SidebarComponent implements OnInit {
   }
   navigateToProfile(): void {
     this.menuClick.emit('profile'); 
+  } 
+  setActiveComponent(component: string) {
+    this.activeComponent = component;
   }
-  
   logout(): void {
     this.authService.logout();
     localStorage.removeItem('role');

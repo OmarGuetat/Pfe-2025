@@ -139,4 +139,27 @@ th {
     background: var(--color-primary-light);
     color: white;
 }
-
+    .modal-header{
+        background-color: var(--color-border); /* Neutral background */
+        border-bottom: 1px solid var(--color-primary); /* Subtle separator */
+    }
+    .modal-title {
+        color: var(--color-primary);
+        font-weight: bold;
+        font-size: 1.25rem; /* Slightly larger for emphasis */
+    }
+    .modal-header .btn-close {
+        opacity: 0.8;
+        transition: opacity 0.3s ease;
+    }
+    
+    .modal-header .btn-close:hover {
+        opacity: 1;
+    }
+    
+    /* Standard Modal Footer */
+    .modal-footer {
+        border-top: 1px solid var(--color-border);
+    }    
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

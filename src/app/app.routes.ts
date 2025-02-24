@@ -11,6 +11,7 @@ import { HrHomeComponent } from './hr/hr-home/hr-home.component';
 import { AccountantHomeComponent } from './accountant/accountant-home/accountant-home.component';
 import { UsersDashboardComponent } from './admin/users-dashboard/users-dashboard.component';
 import { LeaveDashboardComponent } from './admin/leave-dashboard/leave-dashboard.component';
+import { SidenavComponent } from './components/sidenav/sidenav.component';
 
 
 export const routes: Routes = [

@@ -11,21 +11,18 @@ import { CommonModule } from '@angular/common';
 })
 export class LeaveDashboardComponent {
   searchQuery: string = ''; 
-  selectedUserId: number | null = null; // Track selected user
-  selectedRequestsUserId: number | null = null; // Track selected request user
-
+  selectedUserIdChange: number | null = null;
+  selectedRequestsUserIdChange: number | null = null;
+  
   searchEmployees(): void {
-    // Your search logic here
+   
   }
-
-  // Called when a user is selected from the list
-  handleUserSelection(userId: number): void {
-    this.selectedUserId = userId;
+  onUserSelected(userId: number | null): void {
+    this.selectedUserIdChange = userId;
+    this.selectedRequestsUserIdChange = null; 
   }
-
-  // Reset selection (e.g., when going back to the main list)
-  resetSelection(): void {
-    this.selectedUserId = null;
-    this.selectedRequestsUserId = null;
+  onRequestsUserSelected(userId: number | null): void {
+    this.selectedRequestsUserIdChange = userId;
+    this.selectedUserIdChange = null; 
   }
 }
