@@ -18,11 +18,13 @@
     transform: translateX(5px);
 }
 .sidebar {
-background: var(--color-primary);
-border-right: 2px solid var(--color-border);
-box-shadow: none;
-padding: 20px;
+    background: var(--color-primary);
+    border-right: 2px solid var(--color-border);
+    box-shadow: none;
+    padding: 20px; 
+    transition: 0.4s ease-in-out; 
 }
+
 .sidebar-divider{
     color: var(--color-border);
 }

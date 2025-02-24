@@ -6,10 +6,10 @@
   <div class="card-body">
     <h6 class="card-title">{{ leaveEmployee.first_name }} {{ leaveEmployee.last_name }}</h6>
     
-    <div class="btn-group ">
-      <button class="btn button-secondary" (click)="seeDetails()">See Details</button>
-      <button class="btn button-success" (click)="addLeaveDays()">Add Leave Days</button>
-      <button class="btn button-primary" (click)="viewRequests()">View Requests</button>
+    <div class="btn-group px-1">
+      <button class="btn button-secondary" (click)="seeDetails()">Details</button>
+      <button class="btn button-success text-nowrap " (click)="addLeaveDays()"><i class="bi bi-plus-circle"></i> Days</button>
+      <button class="btn button-primary text-nowrap"(click)="viewRequests()">Requests</button>
     </div>
   </div>    
 </div>
