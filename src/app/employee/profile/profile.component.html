@@ -3,41 +3,49 @@
     <h4 class="mb-0">Profile Information</h4>
   </div>
 
-  <div class="card-body">
-    <div class="row align-items-start m-3">
-      <!-- Profile Image (Left Side) -->
-      <div class="col-md-4 text-center d-flex flex-column align-items-center">
-        <img *ngIf="profileData.avatar_path" [src]="profileData.avatar_path" alt="User Avatar" class="profile-img mb-2">
-        <button class="btn btn-outline-secondary btn-sm rounded-circle d-flex align-items-center justify-content-center"
-          (click)="triggerFileInput()" aria-label="Update Image">
+  <div class="card-body " >
+    <!-- Profile Image & Name (Centered on Top) -->
+    <div class="text-center d-flex flex-column align-items-center position-relative">
+      <div class="profile-img-container" (click)="triggerFileInput()">
+        <img *ngIf="profileData.avatar_path" [src]="profileData.avatar_path" alt="User Avatar" class="profile-img">
+        <div class="edit-overlay">
           <i class="bi bi-pencil-fill"></i>
-        </button>
-        <input type="file" #fileInput hidden (change)="onFileSelect($event)">
+        </div>
       </div>
+      <h5 class="profile-name">{{ profileData.first_name }} {{ profileData.last_name }}</h5>
+      <input type="file" #fileInput hidden (change)="onFileSelect($event)">
+    </div>
 
-      <!-- User Information (Right Side) -->
-      <div class="col-md-8 ">
+    <!-- User Information (Divided into Two Sections) -->
+    <div class="row mt-3">
+      <!-- Left Section -->
+      <div class="col-md-6">
         <ul class="list-group list-group-flush">
-          <li class="list-group-item"><strong>First Name:</strong> {{ profileData.first_name }}</li>
-          <li class="list-group-item"><strong>Last Name:</strong> {{ profileData.last_name }}</li>
-          <li class="list-group-item"><strong>Gender:</strong> {{ profileData.gender }}</li>
           <li class="list-group-item"><strong>Email:</strong> {{ profileData.email }}</li>
           <li class="list-group-item"><strong>Phone:</strong> {{ profileData.phone || 'N/A' }}</li>
           <li class="list-group-item"><strong>Address:</strong> {{ profileData.address || 'N/A' }}</li>
+        </ul>
+      </div>
+
+      <!-- Right Section -->
+      <div class="col-md-6">
+        <ul class="list-group list-group-flush">
           <li class="list-group-item"><strong>Company:</strong> {{ profileData.company }}</li>
           <li class="list-group-item"><strong>Job Description:</strong> {{ profileData.job_description }}</li>
           <li class="list-group-item"><strong>Start Date:</strong> {{ profileData.start_date }}</li>
         </ul>
-      
-        <!-- Centered Button -->
-        <button class="btn button-primary mt-3 mx-auto" data-bs-toggle="modal" data-bs-target="#updateProfileModal">
-          Update Profile
-        </button>
       </div>
-      
+    </div>
+
+    <!-- Centered Button -->
+    <div class="text-center mt-3">
+      <button class="btn button-primary" data-bs-toggle="modal" data-bs-target="#updateProfileModal">
+        Update Profile
+      </button>
     </div>
   </div>
 </div>
+
 
 
 

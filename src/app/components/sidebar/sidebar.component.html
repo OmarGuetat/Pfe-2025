@@ -26,7 +26,7 @@
        style="cursor: pointer;" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
       <img *ngIf="avatarPath" [src]="avatarPath" alt="User Avatar" class="rounded-circle user-avatar">
       <i *ngIf="!avatarPath" class="bi bi-person-circle fs-4"></i>
-      <span class="ms-2 d-none d-lg-inline">{{ fullName }}</span>
+      <span class="ms-2 d-none d-xl-inline">{{ fullName }}</span>
     </a>
 
     <ul class="dropdown-menu dropdown-menu-dark text-small shadow animated-dropdown mx-lg-5 " aria-labelledby="userDropdown">
