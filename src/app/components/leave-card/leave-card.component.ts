@@ -15,9 +15,9 @@ export class LeaveCardComponent {
   @Output() onSeeDetails = new EventEmitter<number>();
   @Output() onViewRequests = new EventEmitter<number>();
   leaveForm: FormGroup;
-  submitting: boolean = false;
-  successMessage: string = '';
-  errorMessage: string = '';
+ 
+  alertMessage: string = '';
+  alertType: string = '';
 
   constructor(private fb: FormBuilder, private leaveService: LeaveService) {
     this.leaveForm = this.fb.group({
@@ -25,7 +25,9 @@ export class LeaveCardComponent {
       description: ['', [Validators.maxLength(255)]]
     });
   }
-
+  dismissAlert() {
+    this.alertMessage = '';
+  }
   seeDetails() {
     this.onSeeDetails.emit(this.leaveEmployee.id); 
   }
@@ -40,24 +42,31 @@ export class LeaveCardComponent {
   submitLeave() {
     if (this.leaveForm.invalid) return;
 
-    this.submitting = true;
-    this.successMessage = '';
-    this.errorMessage = '';
+   
 
     this.leaveService.addLeaveDays(this.leaveEmployee.id, this.leaveForm.value)
-      .subscribe({
-        next: (response) => {
-          this.successMessage = response.message;
-          this.leaveForm.reset();
-          this.submitting = false;
+      .subscribe(
+        response => {
+          this.alertMessage = response.message || 'Added successfully!';
+          this.alertType = 'alert-success';
+  
           setTimeout(() => {
             document.getElementById('closeModal-' + this.leaveEmployee.id)?.click();
+            this.dismissAlert();
           }, 1500);
         },
-        error: (err) => {
-          this.errorMessage = err.error?.error || 'An error occurred.';
-          this.submitting = false;
+        error => {
+          setTimeout(() => {
+            this.dismissAlert();
+          }, 1500);
+          if (error.error) {
+            const errors = error.error; 
+            const firstErrorKey = Object.keys(errors)[0]; 
+          this.alertMessage = errors[firstErrorKey][0]; 
+          } else {
+            this.alertMessage = 'An error occurred';
+          }
+          this.alertType = 'alert-danger';
         }
-      });
-  }
+      );}
 }

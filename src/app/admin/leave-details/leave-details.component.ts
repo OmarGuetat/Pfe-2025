@@ -70,7 +70,7 @@ export class LeaveDetailsComponent implements OnInit {
   cancelLeave(leaveId: number): void {
     this.leaveService.cancelLeave(leaveId).subscribe(response => {
       alert(response.message);
-      this.fetchLeaveData(); // Refresh data after cancellation
+      this.fetchLeaveData(); 
     }, error => {
       alert('Error canceling leave: ' + error.error?.message);
     });

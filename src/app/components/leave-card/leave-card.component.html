@@ -1,3 +1,11 @@
+ <!-- ALERTS -->
+<!-- Dynamic Bootstrap Alert -->
+<div *ngIf="alertMessage" class="alert alert-dismissible fade show position-absolute top-0 end-0 m-3 shadow" 
+     [ngClass]="alertType" role="alert">
+  <i *ngIf="alertType === 'alert-danger'" class="bi-exclamation-octagon-fill"></i>
+  <strong class="mx-2">{{ alertMessage }}</strong>
+  <button type="button" class="btn-close" (click)="dismissAlert()" aria-label="Close"></button>
+</div>
 <div class="card leave-card text-center shadow-sm align-items-center p-2 ">
   <img [src]="leaveEmployee.avatar_path" alt="Profile Image" 
     class="rounded-circle border-custom shadow-sm " 
@@ -41,12 +49,10 @@
           </div>
         </form>
 
-        <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
-        <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" id="closeModal-{{ leaveEmployee.id }}" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="button-primary" (click)="submitLeave()" [disabled]="submitting">Submit</button>
+        <button type="button" class="button-primary" (click)="submitLeave()">Submit</button>
       </div>
     </div>
   </div>

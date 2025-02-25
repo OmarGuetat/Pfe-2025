@@ -18,7 +18,9 @@
 .btn-group {
   width: 100%; /* Makes sure it always fits */
 }
-
+.position-absolute {
+  z-index: 1055; 
+}
 /* Buttons should resize and wrap when needed */
 .btn-group .btn {
   flex: 1; /* Each button takes equal space */

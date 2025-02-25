@@ -20,7 +20,7 @@ export class HrHomeComponent {
   constructor() {}
   menuItems = [
     { label: 'Users Dashboard', component: 'users-dashboard', icon: 'bi-people' },
-    { label: 'Leave Dashboard', component: 'leave-dashboard', icon: 'bi-calendar-check' },
+    { label: 'Leave Dashboard', component: 'leave-dashboard', icon: 'bi-calendar-plus' },
     { label: 'Leave Form', component: 'leave-form', icon: 'bi-calendar' },
     { label: 'Leave Requests', component: 'user-request-dashboard', icon: 'bi-calendar-check' },
     

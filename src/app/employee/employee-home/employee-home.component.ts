@@ -19,7 +19,7 @@ export class EmployeeHomeComponent {
   constructor() {}
   menuItems = [
     { label: 'Leave Form', component: 'leave-form', icon: 'bi-calendar4-range' },
-    { label: 'Leave Requests', component: 'user-request-dashboard', icon: 'bi-calendar-check' },
+    { label: 'Leave Requests', component: 'user-request-dashboard', icon: 'bi-calendar-plus' },
     
   ];
   activeComponent = 'leave-form';

@@ -49,7 +49,7 @@ export class RequestDashboardComponent {
 
         setTimeout(() => {
           this.dismissAlert();
-    
+          this.fetchLeaveRequests();
         }, 1000);
       },
       error => {
